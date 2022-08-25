@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Claudio Albornoz Flores  ]]>
+    </title>
+    <link> https://calbornozflores.github.io/ </link>
+    <description>
+      <![CDATA[  Claudio Albornoz Flores&#39;s Website  ]]>
+    </description>
+    <atom:link
+      href="https://calbornozflores.github.io/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  About Me  ]]>
+  </title>
+  <link> https://calbornozflores.github.io/about/index.html </link>
+  <guid> https://calbornozflores.github.io/about/index.html </guid>
+  <description>
+    <![CDATA[  A short description of me  ]]>
+  </description>  
+    
+  <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Claudio Albornoz Flores</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>
