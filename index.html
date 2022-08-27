@@ -46,21 +46,21 @@
     </div>
   </div>
 
-  <!--
   <div class="container">
     <div class="pokeball"></div>
   </div>
 
-  <script>
-    $(window).onload = function() { setInterval(function(){alert("Hello")},10000)};
-  </script>
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+  crossorigin="anonymous"></script>
 
   <script>
-    $(window).on("load", function(){
-      $(".container").fadeOut("slow");
+    $(window).on("load", function() {
+      setInterval(function(){$(".container").fadeOut("slow")}, 10000)
     })
   </script>
-  -->
+  
   
   <div id="main" role="main">
     <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">

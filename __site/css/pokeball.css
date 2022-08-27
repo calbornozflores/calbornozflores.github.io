@@ -23,8 +23,17 @@ body{
     animation: load 1.5s infinite;
 }
 @keyframes load{
+    25%{
+        transform: rotate(15deg) translate(15px) scale(0.95);
+    }
     50%{
-        transform: scale(0.7) rotate(360deg);
+        transform: rotate(0deg);
+    }
+    75%{
+        transform: rotate(-15deg) translate(-15px) scale(0.95);
+    }
+    100%{
+        transform: rotate(0deg);
     }
 }
 .pokeball:before{
