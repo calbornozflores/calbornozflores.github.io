@@ -24,7 +24,7 @@ body{
 }
 @keyframes load{
     50%{
-        transform: scale(0.7);
+        transform: scale(0.7) rotate(360deg);
     }
 }
 .pokeball:before{
