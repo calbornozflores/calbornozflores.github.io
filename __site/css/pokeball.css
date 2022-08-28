@@ -10,6 +10,17 @@ body{
     align-items: center;
     justify-content: center;
 }
+.loader-wrapper {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #242f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .pokeball{
     height: 250px;
     width: 250px;
@@ -20,7 +31,7 @@ body{
         white 125px
         );
     position: relative;
-    animation: load 1.5s infinite;
+    animation: load 1.5s infinite ease;
 }
 @keyframes load{
     25%{

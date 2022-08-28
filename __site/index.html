@@ -16,6 +16,7 @@
     </script>
     <!-- For all browsers -->
     <link rel="stylesheet" href="/css/minimal-mistakes.css">
+    <link rel="stylesheet" href="/css/pokeball_pure.css">
     <!--[if IE ]>
       <style>
         /* old IE unsupported flexbox fixes */
@@ -59,9 +60,10 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="pokeball"></div>
-  </div>
+  <div class="loader-wrapper">
+    <div class="container">
+  <div class="pokeball">
+  </div></div></div>
 
   <script
   src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
@@ -70,10 +72,9 @@
 
   <script>
     $(window).on("load", function() {
-      setInterval(function(){$(".container").fadeOut("slow")}, 10000)
+      setInterval(function(){$(".loader-wrapper").fadeOut("slow")}, 2000)
     })
   </script>
-  
   
   <div id="main" role="main">
     <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
