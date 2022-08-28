@@ -16,8 +16,8 @@
     z-index: 1;
 }
 .pokeball{
-    height: 250px;
-    width: 250px;
+    height: 275px;
+    width: 275px;
     border: 13px solid #383b4f;
     border-radius: 50%;
     background-image: linear-gradient(
@@ -25,34 +25,42 @@
         white 125px
         );
     position: relative;
-    animation: load 2.6s;
+    animation: spin 2.6s;
 }
 @keyframes load{
     15%{
-        transform: translate(70%, -40%) rotate(20deg);
+        transform: translate(70%, -40%);
     }
     30%{
-        transform: translate(-20%, -80%) rotate(40deg);
+        transform: translate(-20%, -80%);
     }
     45%{
-        transform: translate(-70%, 70%) rotate(60deg);
+        transform: translate(-70%, 70%);
     }
     60%{
-        transform: translate(-50%, 100%) rotate(80deg);
+        transform: translate(-50%, 100%);
     }
     70%{
-        transform: translate(-30%, 100%) rotate(90deg);
+        transform: translate(-30%, 100%);
     }
     80%{
-        transform: translate(-15%, 100%) rotate(105deg);
+        transform: translate(-15%, 100%);
     }
     90%{
-        transform: translate(-5%, 100%) rotate(110deg);
+        transform: translate(-5%, 100%);
     }
     100%{
-        transform: translate(0%, 100%) rotate(115deg);
+        transform: translate(0%, 100%);
     }
 }
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 .pokeball:before{
     position: absolute;
     content: "";
