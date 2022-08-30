@@ -108,6 +108,8 @@ Text pattern recognition over transcribed class records.
 
 **[11/2020-Now]** *Member at Consejo de Carrera Ingeniería Civil Matemática UFRO.*
 
+**[2019]** *Speaker at Konünwenu Workshop - Entrada al Cosmos, Temuco, Chile*
+
 **[2019]** *Attendee at Spark Summit, San Francisco, EEUU.*
 
 **[2016]** *Best Graduating Student Ingeniería Civil Matemática.*
