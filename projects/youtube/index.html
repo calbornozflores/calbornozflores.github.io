@@ -36,6 +36,27 @@
 </head>
 <body class="layout--single">
   <div class="masthead">
+
+  <link rel="stylesheet" href="/css/pokeball_pure.css">
+
+  <div class="container" style="width:auto;height:auto">
+  <div class="loader-wrapper">
+  <div class="pokeball">
+  </div></div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+  crossorigin="anonymous">
+  </script>
+
+  <script>
+    $(window).on("load", function() {
+      setInterval(function(){$(".loader-wrapper").fadeOut("slow")}, 2000)
+    })
+  </script>
+
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
