@@ -9,6 +9,10 @@
 
 Data Scientist with 5 years of experience performing machine learning models, software development,
 cloud computing and custom algorithms in order to face business problems correctly.
+
+At university, I derived my efforts into parallel programming and its logic to optimize at max codes.
+And at work, those efforts and my maths skills finally converged into Data Science with Big Data.
+
 As far as I have observed, the desire of self-improvement and the persistent intention of acquiring new knowledge are a must.
 In addition, I consider myself easy going, super proactive and absolutely collaborative because making the most of teamwork
 is the best approach for bringing projects to success.
