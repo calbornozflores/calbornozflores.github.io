@@ -37,6 +37,27 @@
 </head>
 <body class="layout--single">
   <div class="masthead">
+
+  <link rel="stylesheet" href="/css/pokeball_pure.css">
+
+  <div class="container" style="width:auto;height:auto">
+  <div class="loader-wrapper">
+  <div class="pokeball">
+  </div></div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+  crossorigin="anonymous">
+  </script>
+
+  <script>
+    $(window).on("load", function() {
+      setInterval(function(){$(".loader-wrapper").fadeOut("slow")}, 2000)
+    })
+  </script>
+
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
@@ -76,27 +97,6 @@
 
 <!-- Content appended here -->
 <div class="franklin-content">
-
-  <link rel="stylesheet" href="/css/pokeball_pure.css">
-
-  <div class="container" style="width:auto;height:auto">
-  <div class="loader-wrapper-md">
-  <div class="pokeball">
-  </div></div>
-  </div>
-
-  <script
-  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
-  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
-  crossorigin="anonymous">
-  </script>
-
-  <script>
-    $(window).on("load", function() {
-      setInterval(function(){$(".loader-wrapper-md").fadeOut("slow")}, 2000)
-    })
-  </script>
-
 <h1 id="about_me"><a href="#about_me" class="header-anchor">About Me</a></h1>
 <p>I’m Claudio, a mathematician who loves programming and data science. I&#39;m super focused on practical skills and getting outcomes trying not to overcomplicate pipelines and procedures. I truly believe that simple approaches make beauty and maintainable processes.</p>
 <p>Currently working in Santiago, Chile, coming from Padre Las Casas, La Araucanía Region, Chile. I often participate in initiatives to extend Data Science and Big Data knowledge in my alma mater, bringing more professionals to the field.</p>
