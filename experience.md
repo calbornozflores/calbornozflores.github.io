@@ -1,6 +1,28 @@
 @def title = "Jobs"
 @def tags = ["jobs", "experience"]
 
+~~~
+  <link rel="stylesheet" href="/css/pokeball_pure.css">
+
+  <div class="container" style="width:auto;height:auto">
+  <div class="loader-wrapper-md">
+  <div class="pokeball">
+  </div></div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+  crossorigin="anonymous">
+  </script>
+
+  <script>
+    $(window).on("load", function() {
+      setInterval(function(){$(".loader-wrapper-md").fadeOut("slow")}, 2000)
+    })
+  </script>
+~~~
+
 # Experience
 
 \tableofcontents <!-- you can use \toc as well -->

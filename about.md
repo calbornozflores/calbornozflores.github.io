@@ -7,6 +7,28 @@ rss = "A short description of me"
 tags = ["life", "personal"]
 +++
 
+~~~
+  <link rel="stylesheet" href="/css/pokeball_pure.css">
+
+  <div class="container" style="width:auto;height:auto">
+  <div class="loader-wrapper-md">
+  <div class="pokeball">
+  </div></div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+  crossorigin="anonymous">
+  </script>
+
+  <script>
+    $(window).on("load", function() {
+      setInterval(function(){$(".loader-wrapper-md").fadeOut("slow")}, 2000)
+    })
+  </script>
+~~~
+
 # About Me
 
 I’m Claudio, a mathematician who loves programming and data science.
@@ -26,9 +48,9 @@ in order to have at least a chance of completing the collection someday jeje.
 
 ~~~
 <div class="row">
-  <div class="container">
+  <div class="container" style="width:auto;height:auto">
     <img class="left" src="/assets/minimal-mistakes/collection.jpg">
-    <div style="clear: both"></div>      
+    <div style="clear: both"></div>
   </div>
 </div>
 ~~~
