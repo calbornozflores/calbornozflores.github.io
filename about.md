@@ -17,6 +17,15 @@ Currently working in Santiago, Chile, coming from Padre Las Casas, La Araucanía
 I often participate in initiatives to extend Data Science and Big Data knowledge in my alma mater,
 bringing more professionals to the field.
 
+~~~
+<div class="row">
+  <div class="container" style="width:auto;height:auto">
+    <img class="left" src="/assets/minimal-mistakes/spark-summit.jpeg">
+    <div style="clear: both"></div>
+  </div>
+</div>
+~~~
+
 Additionally, my only one hobby is to be a big fan of Pokémon, carrying my passion from 6 yo,
 my interest includes play Pokémon games and collecting figures.
 My current collection contains over 400 different figures, dating from 1997 up to date, which makes me pretty proud.
