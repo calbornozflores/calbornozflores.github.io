@@ -28,7 +28,7 @@ bringing more professionals to the field.
 
 Additionally, my only one hobby is to be a big fan of Pokémon, carrying my passion from 6 yo,
 my interest includes play Pokémon games and collecting figures.
-My current collection contains over 400 different figures, dating from 1997 up to date, which makes me pretty proud.
+My current collection contains over 600 different figures, dating from 1997 up to date, which makes me pretty proud.
 
 An important detail is that my collectables are only [Tomy](https://en.wikipedia.org/wiki/Tomy) brand
 in order to have at least a chance of completing the collection someday jeje.
