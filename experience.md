@@ -29,10 +29,15 @@ is the best approach for bringing projects to success.
 
 ## Jobs
 
-### [ 2018.06 - Now ] Data Scientist
+### [ 2023.01 - Now ] Data Science Tech Lead
+*ClaroVTR
+---
+* Overseeing tech aspects of data science projects.
+* Project management.
+
+### [ 2018.06 - 2022.12 ] Data Scientist
 *VTR - LLA - VTR*
 ---
-* Data Science technical leader.
 * Building a Node Intervention Prioritization Model for VTR.
 * Building of Clustering Model to Quality of Experience Timeseries of Internet Network for VTR.
 * Building of Call-in Prediction Model for Cable & Wireless Panamá.
