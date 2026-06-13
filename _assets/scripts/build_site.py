@@ -128,14 +128,13 @@ def compile_md(src_path, out_dir):
     ctx, body = parse_frontmatter(text)
     content_html = franklin_to_html(body)
 
-    # Build full page using head.html + body_layout.html + content + foot.html
+    # head.html already inserts body_layout.html via {{ insert body_layout.html }}
+    # so we only need head + content (placed after sidebar) + foot
     head = render_template(read_layout("head.html"), ctx)
-    body_layout = render_template(read_layout("body_layout.html"), ctx)
     foot = render_template(read_layout("foot.html"), ctx)
 
     full = (
         head
-        + body_layout
         + f'\n<div class="franklin-content">\n{content_html}\n</div>\n'
         + foot
     )
