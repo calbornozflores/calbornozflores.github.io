@@ -1,122 +1,168 @@
-@def title = "Jobs"
+@def title = "Resume"
 @def tags = ["jobs", "experience"]
 
-# Experience
+# Resume
 
-\tableofcontents <!-- you can use \toc as well -->
+~~~
+<span class="section-label">Profile</span>
+~~~
 
-## Profile
+Data Science Tech Lead with 5+ years of experience building machine learning systems at scale in the telecom industry. I focus on end-to-end delivery: from designing algorithms grounded in maths to deploying production models in Spark on cloud infrastructure.
 
-Data Scientist with 5 years of experience performing machine learning models, software development,
-cloud computing and custom algorithms in order to face business problems correctly.
+My background in applied mathematics drives how I approach problems — I look for the simplest model that solves the real business question, and I build pipelines that other people can maintain and extend.
 
-At university, I derived my efforts into parallel programming and its logic to optimize at max codes.
-And at work, those efforts and my maths skills finally converged into Data Science with Big Data.
-
-As far as I have observed, the desire of self-improvement and the persistent intention of acquiring new knowledge are a must.
-In addition, I consider myself easy going, super proactive and absolutely collaborative because making the most of teamwork
-is the best approach for bringing projects to success.
-
-## Education
-
-### [ 2011 - 2016 ] Ingeniería Civil Matemática
-*Universidad de La Frontera.*
 ---
 
-* Data Analysis
-* Mathematical Modeling.
-* Parallel Programming.
+~~~
+<span class="section-label">Experience</span>
 
-## Jobs
+<div class="timeline">
 
-### [ 2023.01 - Now ] Data Science Tech Lead
-*ClaroVTR
----
-* Overseeing tech aspects of data science projects.
-* Project management.
+  <div class="timeline-item">
+    <div class="timeline-date">Jan 2023 – Present</div>
+    <p class="timeline-title">Data Science Tech Lead</p>
+    <p class="timeline-company">ClaroVTR · Santiago, Chile</p>
+    <div class="timeline-desc">
+      <ul>
+        <li>Technical oversight of ML projects across the data science team.</li>
+        <li>Setting standards for model development, deployment, and monitoring.</li>
+        <li>Project management and cross-functional collaboration with product and engineering.</li>
+      </ul>
+    </div>
+  </div>
 
-### [ 2018.06 - 2022.12 ] Data Scientist
-*VTR - LLA - VTR*
----
-* Building a Node Intervention Prioritization Model for VTR.
-* Building of Clustering Model to Quality of Experience Timeseries of Internet Network for VTR.
-* Building of Call-in Prediction Model for Cable & Wireless Panamá.
-* Building of Voluntary Churn Model for VTR.
-* Machine Learning End-to-End production to Involuntary Churn prediction for VTR.
-* Building of a framework to develop feature engineering & modeling based on PySpark for LLA.
-* RL project to generate the Next Best Offer for prepaid mobile to Cable & Wireless Panamá.
+  <div class="timeline-item">
+    <div class="timeline-date">Jun 2018 – Dec 2022</div>
+    <p class="timeline-title">Data Scientist</p>
+    <p class="timeline-company">VTR / LLA · Santiago, Chile & Panama</p>
+    <div class="timeline-desc">
+      <ul>
+        <li>Built a Node Intervention Prioritization Model to proactively reduce network incidents.</li>
+        <li>Designed a Clustering Model on Quality of Experience timeseries for internet network analysis.</li>
+        <li>Developed Call-in Prediction and Voluntary Churn Models for Cable & Wireless Panamá.</li>
+        <li>Delivered an end-to-end Involuntary Churn prediction pipeline to production.</li>
+        <li>Created a PySpark-based framework for feature engineering and modelling across LLA.</li>
+        <li>Built a Reinforcement Learning system for Next Best Offer on prepaid mobile.</li>
+      </ul>
+    </div>
+  </div>
 
-### [ 2017.11 - 2018.05 ] Software Developer
-*Telefonica I+D Chile*
----
-Optimization and application of Spatial Geo-positioning algorithms and keyword extraction for inbound calls to identify customer issues.
+  <div class="timeline-item">
+    <div class="timeline-date">Nov 2017 – May 2018</div>
+    <p class="timeline-title">Software Developer</p>
+    <p class="timeline-company">Telefonica I+D Chile · Santiago, Chile</p>
+    <div class="timeline-desc">
+      Optimization of spatial geo-positioning algorithms and keyword extraction for inbound calls to automatically identify and route customer issues.
+    </div>
+  </div>
 
-### [ 2017.06 - 2017.10 ] Researcher
-*Telefonica I+D Chile*
----
-Accuracy improvements for Spatial Geo-positioning algorithms incorporating GPS and Timing Advance.
+  <div class="timeline-item">
+    <div class="timeline-date">Jun 2017 – Oct 2017</div>
+    <p class="timeline-title">Researcher</p>
+    <p class="timeline-company">Telefonica I+D Chile · Santiago, Chile</p>
+    <div class="timeline-desc">
+      Improved accuracy of spatial geo-positioning algorithms by incorporating GPS and Timing Advance signals.
+    </div>
+  </div>
 
-### [ 2016.09 - 2017.02 ] Research Internship
-*Telefonica I+D Chile*
----
-Spatial Geo-positioning algorithm design.
+  <div class="timeline-item">
+    <div class="timeline-date">Sep 2016 – Feb 2017</div>
+    <p class="timeline-title">Research Intern</p>
+    <p class="timeline-company">Telefonica I+D Chile · Santiago, Chile</p>
+    <div class="timeline-desc">
+      Designed a spatial geo-positioning algorithm from scratch — the foundation for subsequent production work.
+    </div>
+  </div>
 
-### [ 2013.03 - 2016.06 ] Class Assistant
-*Universidad de La Frontera*
----
-* C++ Programming and OpenMP for parallel algorithms.
-* Applied numerical methods.
+  <div class="timeline-item">
+    <div class="timeline-date">Mar 2013 – Jun 2016</div>
+    <p class="timeline-title">Class Assistant</p>
+    <p class="timeline-company">Universidad de La Frontera · Temuco, Chile</p>
+    <div class="timeline-desc">
+      Taught C++ and OpenMP for parallel algorithms, and applied numerical methods.
+    </div>
+  </div>
 
-### [ 2014.12 - 2015.02 ] Data Analyst
-*SGS Minerals Services*
----
-Analysis of mineral grinding and froth flotation for optimizing test extraction.
+  <div class="timeline-item">
+    <div class="timeline-date">Dec 2014 – Feb 2015</div>
+    <p class="timeline-title">Data Analyst</p>
+    <p class="timeline-company">SGS Minerals Services</p>
+    <div class="timeline-desc">
+      Analysis of mineral grinding and froth flotation data to optimize test extraction processes.
+    </div>
+  </div>
 
-### [ 2014.09 - 2014.11 ] Data Analyst
-*Instituto de Informática Educativa - UFRO*
----
+</div>
+~~~
 
-Text pattern recognition over transcribed class records.
-
-## Skills
-
-### Languages
----
-
-* Native Spanish.
-* Intermediate English.
-
-### Programming Languages
----
-
-*Bash, Python, Scala, Spark, R, C++.*
-
-### Cloud
----
-
-#### AWS
-
-*Sagemaker, S3, EMR, EC2, Lambda, Step Functions, CodeCommit, Processing, Transcribe, SNS, DynamoDB.*
-
-#### GCP
-
-*Storage, Clusters Dataproc, BigQuery, AI Platform Notebooks.*
-
-#### Azure
-
-*HDInsight, Blob Storage.*
-
-## Activities & Awards
 ---
 
-**[2021]** *High Performance Recognition Prize LLA.*
+~~~
+<span class="section-label">Education</span>
+~~~
 
-**[11/2020-Now]** *Member at Consejo de Carrera Ingeniería Civil Matemática UFRO.*
+**Ingeniería Civil Matemática** · Universidad de La Frontera · 2011–2016
 
-**[2019]** *Speaker at Konünwenu Workshop - Entrada al Cosmos, Temuco, Chile*
+Core focus: mathematical modelling, parallel programming (C++/OpenMP), data analysis, and numerical methods.
 
-**[2019]** *Attendee at Spark Summit, San Francisco, EEUU.*
+---
 
-**[2016]** *Best Graduating Student Ingeniería Civil Matemática.*
+~~~
+<span class="section-label">Skills</span>
 
-**[2014]** *Contestant UFRO in ACM ICPC Latin America Programming Contest.*
+<div class="skill-group">
+  <div class="skill-group-label">Programming Languages</div>
+  <span class="skill-badge">Python</span>
+  <span class="skill-badge">Scala</span>
+  <span class="skill-badge">Spark / PySpark</span>
+  <span class="skill-badge">R</span>
+  <span class="skill-badge">C++</span>
+  <span class="skill-badge">Bash</span>
+</div>
+
+<div class="skill-group">
+  <div class="skill-group-label">AWS</div>
+  <span class="skill-badge">SageMaker</span>
+  <span class="skill-badge">S3</span>
+  <span class="skill-badge">EMR</span>
+  <span class="skill-badge">EC2</span>
+  <span class="skill-badge">Lambda</span>
+  <span class="skill-badge">Step Functions</span>
+  <span class="skill-badge">DynamoDB</span>
+  <span class="skill-badge">Transcribe</span>
+  <span class="skill-badge">SNS</span>
+</div>
+
+<div class="skill-group">
+  <div class="skill-group-label">GCP</div>
+  <span class="skill-badge">BigQuery</span>
+  <span class="skill-badge">Dataproc</span>
+  <span class="skill-badge">Cloud Storage</span>
+  <span class="skill-badge">AI Platform</span>
+</div>
+
+<div class="skill-group">
+  <div class="skill-group-label">Azure</div>
+  <span class="skill-badge">HDInsight</span>
+  <span class="skill-badge">Blob Storage</span>
+</div>
+
+<div class="skill-group">
+  <div class="skill-group-label">Languages</div>
+  <span class="skill-badge">Spanish (native)</span>
+  <span class="skill-badge">English (intermediate)</span>
+</div>
+~~~
+
+---
+
+~~~
+<span class="section-label">Awards & Activities</span>
+
+<div class="award-item"><span class="award-year">2021</span><span>High Performance Recognition Prize — LLA</span></div>
+<div class="award-item"><span class="award-year">2020–</span><span>Member, Consejo de Carrera Ingeniería Civil Matemática, UFRO</span></div>
+<div class="award-item"><span class="award-year">2019</span><span>Speaker — Konünwenu Workshop "Entrada al Cosmos", Temuco, Chile</span></div>
+<div class="award-item"><span class="award-year">2019</span><span>Attendee — Spark Summit, San Francisco, USA</span></div>
+<div class="award-item"><span class="award-year">2016</span><span>Best Graduating Student — Ingeniería Civil Matemática, UFRO</span></div>
+<div class="award-item"><span class="award-year">2014</span><span>Contestant — ACM ICPC Latin America Programming Contest</span></div>
+~~~
