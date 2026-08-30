@@ -31,7 +31,7 @@
 </style>
 <![endif]-->
 
-   <title>404</title>  
+   <title>Speed Reader</title>  
   <!-- end custom head snippets -->
 </head>
 <body class="layout--single">
@@ -78,33 +78,34 @@
 <!-- Content appended here -->
 
 <div class="franklin-content">
+<h1>Speed Reader</h1>
 
+<span class="section-label">Project</span>
 
-<div style="margin-top: 40px; font-size: 40px; text-align: center;">
+<p>A browser-based RSVP (rapid serial visual presentation) speed reader that displays text one word at a time at a configurable pace, with support for pasted text, <code>.txt</code>, <code>.epub</code>, and <code>.rtf</code> files — and zero build tooling or framework dependencies.</p>
+<hr>
+<h2>Motivation</h2>
+<p>I wanted to read faster without installing another app, so the constraint became the interesting part: could a fully-featured reader — including file parsing for formats like EPUB — run as a single static HTML page with no backend and no npm install?</p>
+<hr>
+<h2>Approach</h2>
 
-  <br>
-
-  <div style="font-weight: bold;">
-    404
-  </div>
-
-  <br>
-  <br>
-
-    The requested page was not found
-
-  <br>
-  <br>
-  <br>
-  <br>
-
-  <div style="margin-bottom: 300px; font-size: 24px">
-    <a href="/">Click here</a> to go back to the homepage.
-  </div>
-
+<div class="skill-group">
+  <span class="skill-badge">JavaScript</span>
+  <span class="skill-badge">HTML / CSS</span>
+  <span class="skill-badge">IndexedDB</span>
+  <span class="skill-badge">Ollama (optional)</span>
 </div>
 
+<p>EPUB files are unzipped with the browser's native <code>DecompressionStream</code>, and RTF is parsed by hand — no vendored libraries for either. Reading position and history are kept in IndexedDB so a session can resume later. An optional local-AI mode connects to a locally-running Ollama model for incremental "summary so far" and "characters so far" prompts, feeding only the newly-read delta each time rather than re-summarizing from the start — with no calls to any cloud service.</p>
+<hr>
+<h2>Results</h2>
+<p>Runs entirely by opening <code>index.html</code> — no server, no dependencies, and the AI features work fully offline against a local model.</p>
 
+<div class="callout-box">
+  <strong>Key takeaway:</strong> Modern browser APIs (native decompression, IndexedDB) remove the need for a build step or vendored libraries even for tasks — like EPUB parsing — that usually reach for a package.
+</div>
+
+<p><a href="https://github.com/calbornozflores/speed-reader">View on GitHub →</a></p>
 </div>
 <!-- CONTENT ENDS HERE -->
 
