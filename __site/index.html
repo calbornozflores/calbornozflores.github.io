@@ -16,7 +16,6 @@
     </script>
     <!-- For all browsers -->
     <link rel="stylesheet" href="/css/minimal-mistakes.css">
-    <link rel="stylesheet" href="/css/pokeball_pure.css">
     <link rel="stylesheet" href="/css/adjust.css">
     <!--[if IE ]>
       <style>
@@ -46,7 +45,7 @@
         <ul class="visible-links">
           <li class="masthead__menu-item"><a href="/about/" >About Me</a></li>
           <li class="masthead__menu-item"><a href="/experience/" >Resume</a></li>
-          <li class="masthead__menu-item"><a href="/pokeball" >Pokeball</a></li>
+        </ul>
       </nav>
     </div>
   </div>
@@ -58,8 +57,8 @@
     style="background-color: #1a1a2e; background-image: url('/assets/minimal-mistakes/home-page.jpg');">
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">Claudio Albornoz Flores</h1>
-      <p class="page__lead">Data Science Tech Lead &amp; Mathematician<br>
-        <span style="font-size:0.7em; opacity:0.8; font-weight:400;">5 years building ML systems · Santiago, Chile</span>
+      <p class="page__lead">Data Engineer &amp; Machine Learning Practitioner<br>
+        <span style="font-size:0.7em; opacity:0.8; font-weight:400;">7+ years building ML &amp; data systems in telecom · Santiago, Chile</span>
       </p>
       <div class="hero-cta">
         <a href="/about/" class="btn btn--light-outline">About Me</a>
@@ -68,81 +67,84 @@
     </div>
   </div>
 
-  <div class="loader-wrapper">
-    <div class="container">
-  <div class="pokeball">
-  </div></div></div>
-
-  <script
-  src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
-  integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
-  crossorigin="anonymous">
-  </script>
-
-  <script>
-    $(window).on("load", function() {
-      setInterval(function(){$(".loader-wrapper").fadeOut("slow")}, 2000)
-    })
-  </script>
-  
   <div id="main" role="main">
     <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="description" content="Data Science Tech Lead & Mathematician — 5 years building ML systems in telecom. Based in Santiago, Chile.">
+      <meta itemprop="description" content="Data Engineer & Machine Learning Practitioner — 7+ years building ML and data systems in telecom. Based in Santiago, Chile.">
       <section class="page__content" itemprop="text">
         <div class="feature__wrapper">
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/airport.jpg" alt="Booking Booking" />
+                <img src="/assets/minimal-mistakes/earth-trip-visualizer.svg" alt="Earth Trip Visualizer" />
               </div>
               <div class="archive__item-body">
-                <h2 class="archive__item-title">Booking Booking</h2>
+                <h2 class="archive__item-title">Earth Trip Visualizer</h2>
                 <div class="archive__item-excerpt">
-                  <p>Python web scraper to track and compare hotel prices on Booking.com — built to find the best deal without the manual search.</p>
+                  <span class="tech-tag-row">
+                    <span class="tech-tag">PyQt6</span>
+                    <span class="tech-tag">NumPy</span>
+                    <span class="tech-tag">ffmpeg</span>
+                  </span>
+                  <p>Desktop app that renders a cinematic 9:16 fly-through of a travel route on a 3D globe, using pure-numpy projection math — no Cartopy or matplotlib.</p>
                 </div>
-                <p><a href="https://github.com/calbornozflores/booking-booking" class="btn btn--primary">View on GitHub</a></p>
+                <p><a href="https://github.com/calbornozflores/earth-trip-visualizer" class="btn btn--primary">View on GitHub</a></p>
               </div>
             </div>
           </div>
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/youtube.jpg" alt="Youtube API" />
+                <img src="/assets/minimal-mistakes/poke-dojo.svg" alt="Poke Dojo" />
               </div>
               <div class="archive__item-body">
-                <h2 class="archive__item-title">Investing x YouTube</h2>
+                <h2 class="archive__item-title">Poke Dojo</h2>
                 <div class="archive__item-excerpt">
-                  <p>Correlated S&amp;P 500 returns with stock picks from top finance YouTubers via the YouTube Data API to test whether influencer sentiment predicts price movement.</p>
+                  <span class="tech-tag-row">
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">Fly.io</span>
+                  </span>
+                  <p>Full-stack Pokémon quiz app with five game modes, a real-time Battle Arena, cloud leaderboards, and a per-user XGBoost difficulty model.</p>
                 </div>
-                <p><a href="https://github.com/calbornozflores/spy-youtube" class="btn btn--primary">View on GitHub</a></p>
+                <p><a href="https://poke-dojo.fly.dev" class="btn btn--live">Try it live</a> <a href="https://github.com/calbornozflores/poke-dojo" class="btn btn--primary">View on GitHub</a></p>
               </div>
             </div>
           </div>
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/dictionary.jpg" alt="DPhi" />
+                <img src="/assets/minimal-mistakes/pokemon-figure-tracker.svg" alt="Pokemon Figure Tracker" />
               </div>
               <div class="archive__item-body">
-                <h2 class="archive__item-title">DPhi Contributor</h2>
+                <h2 class="archive__item-title">Pokémon Figure Tracker</h2>
                 <div class="archive__item-excerpt">
-                  <p>Translated deep learning curriculum — CNNs, model training, and more — from English to Spanish to make ML education accessible across Latin America.</p>
+                  <span class="tech-tag-row">
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">Web Scraping</span>
+                    <span class="tech-tag">SMTP</span>
+                  </span>
+                  <p>Fully unattended cron scraper + emailer that watches an e-commerce site for new product listings and notifies before they sell out — no server required.</p>
                 </div>
-                <p><a href="https://github.com/dphi-official/getting-started-with-deep-learning-es/tree/main/convolutional-neural-networks" class="btn btn--primary">View on GitHub</a></p>
+                <p><a href="https://github.com/calbornozflores/pokemon-figure-tracker" class="btn btn--primary">View on GitHub</a></p>
               </div>
             </div>
           </div>
           <div class="feature__item">
             <div class="archive__item">
               <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/poke_front.jpeg" alt="Poke Gallery" />
+                <img src="/assets/minimal-mistakes/speed-reader.svg" alt="Speed Reader" />
               </div>
               <div class="archive__item-body">
-                <h2 class="archive__item-title">Poke Gallery</h2>
+                <h2 class="archive__item-title">Speed Reader</h2>
                 <div class="archive__item-excerpt">
-                  <p>700+ Tomy Pokémon figures collected since 1997, from Bulbasaur to the latest generation — every one photographed and catalogued.</p>
+                  <span class="tech-tag-row">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">No dependencies</span>
+                    <span class="tech-tag">Local AI</span>
+                  </span>
+                  <p>Zero-dependency browser RSVP speed reader with hand-written EPUB/RTF parsing and optional local-Ollama reading insights — no cloud calls.</p>
                 </div>
-                <p><a href="/gallery" class="btn btn--primary">Browse Gallery</a></p>
+                <p><a href="https://github.com/calbornozflores/speed-reader" class="btn btn--primary">View on GitHub</a></p>
               </div>
             </div>
           </div>

@@ -31,7 +31,7 @@
 </style>
 <![endif]-->
 
-   <title>404</title>  
+   <title>Pokémon Figure Tracker</title>  
   <!-- end custom head snippets -->
 </head>
 <body class="layout--single">
@@ -78,33 +78,35 @@
 <!-- Content appended here -->
 
 <div class="franklin-content">
+<h1>Pokémon Figure Tracker</h1>
 
+<span class="section-label">Project</span>
 
-<div style="margin-top: 40px; font-size: 40px; text-align: center;">
+<p>A daily-scheduled scraper and emailer that watches a retail site for newly listed collectible figures and sends a notification before they sell out — running entirely on GitHub Actions, with no server or laptop involved.</p>
+<hr>
+<h2>Motivation</h2>
+<p>Limited-run collectibles list and sell out fast, and checking a catalog page manually every day doesn't scale. The interesting part of this project isn't the scraping itself — it's making the whole thing run unattended and for free, with its own state tracked in version control.</p>
+<hr>
+<h2>Approach</h2>
 
-  <br>
-
-  <div style="font-weight: bold;">
-    404
-  </div>
-
-  <br>
-  <br>
-
-    The requested page was not found
-
-  <br>
-  <br>
-  <br>
-  <br>
-
-  <div style="margin-bottom: 300px; font-size: 24px">
-    <a href="/">Click here</a> to go back to the homepage.
-  </div>
-
+<div class="skill-group">
+  <span class="skill-badge">Python</span>
+  <span class="skill-badge">Requests</span>
+  <span class="skill-badge">BeautifulSoup4</span>
+  <span class="skill-badge">GitHub Actions</span>
+  <span class="skill-badge">SMTP</span>
 </div>
 
+<p>A GitHub Actions cron workflow runs the scraper daily, respecting the target site's <code>robots.txt</code> and a politeness delay between requests. Already-seen product codes are diffed against the previous run and committed back to the repository as state, so only genuinely new listings trigger an email — and a "silent baseline" first run avoids dumping the entire existing catalog into one notification.</p>
+<hr>
+<h2>Results</h2>
+<p>Runs unattended, on a schedule, for free, with the workflow itself maintaining its own state via git commits.</p>
 
+<div class="callout-box">
+  <strong>Key takeaway:</strong> Committing scraper state back to the repository turns GitHub Actions into a zero-infrastructure, idempotent cron job — no database or server needed.
+</div>
+
+<p><a href="https://github.com/calbornozflores/pokemon-figure-tracker">View on GitHub →</a></p>
 </div>
 <!-- CONTENT ENDS HERE -->
 

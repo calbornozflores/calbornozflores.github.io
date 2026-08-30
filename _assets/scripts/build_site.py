@@ -11,6 +11,8 @@ import markdown as md
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LAYOUT = os.path.join(ROOT, "_layout")
 CSS_SRC = os.path.join(ROOT, "_css")
+ASSETS_SRC = os.path.join(ROOT, "_assets")
+LIBS_SRC = os.path.join(ROOT, "_libs")
 SITE = os.path.join(ROOT, "__site")
 
 DEFAULTS = {
@@ -122,8 +124,9 @@ def franklin_to_html(body):
             out.append(part)
     return "\n".join(out)
 
-def compile_md(src_path, out_dir):
-    """Compile a Franklin .md file and write to out_dir/index.html."""
+def compile_md(src_path, out_dir, flat=False):
+    """Compile a Franklin .md file and write to out_dir/index.html (or directly to
+    out_dir if flat=True, e.g. for 404.html which GitHub Pages expects at site root)."""
     text = open(src_path).read()
     ctx, body = parse_frontmatter(text)
     content_html = franklin_to_html(body)
@@ -138,6 +141,12 @@ def compile_md(src_path, out_dir):
         + f'\n<div class="franklin-content">\n{content_html}\n</div>\n'
         + foot
     )
+
+    if flat:
+        os.makedirs(os.path.dirname(out_dir), exist_ok=True)
+        open(out_dir, "w").write(full)
+        print(f"  compiled  {src_path} → {out_dir}")
+        return
 
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "index.html")
@@ -159,11 +168,35 @@ def compile_html(src_path, out_path, ctx=None):
 
 def sync_css():
     dst = os.path.join(SITE, "css")
+    if os.path.exists(dst):
+        shutil.rmtree(dst)
     os.makedirs(dst, exist_ok=True)
     for f in os.listdir(CSS_SRC):
         src = os.path.join(CSS_SRC, f)
         shutil.copy2(src, os.path.join(dst, f))
         print(f"  copied    {src} → {dst}/{f}")
+
+def sync_dir(src_root, dst_root, label):
+    """Mirror src_root into dst_root exactly (removes anything stale in dst_root)."""
+    if os.path.exists(dst_root):
+        shutil.rmtree(dst_root)
+    shutil.copytree(src_root, dst_root)
+    print(f"  synced    {src_root} → {dst_root} ({label})")
+
+def sync_assets():
+    """Mirror the static files under _assets/ that pages actually reference (favicon,
+    hamburger icon, and site images) into __site/assets/ — removes stale/orphaned images."""
+    dst = os.path.join(SITE, "assets")
+    if os.path.exists(dst):
+        shutil.rmtree(dst)
+    os.makedirs(dst, exist_ok=True)
+    for f in ("favicon.ico", "hamburger.svg"):
+        shutil.copy2(os.path.join(ASSETS_SRC, f), os.path.join(dst, f))
+    shutil.copytree(os.path.join(ASSETS_SRC, "minimal-mistakes"), os.path.join(dst, "minimal-mistakes"))
+    print(f"  synced    {ASSETS_SRC} → {dst} (site images/icons)")
+
+def sync_libs():
+    sync_dir(LIBS_SRC, os.path.join(SITE, "libs"), "vendored JS/CSS libs")
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
@@ -171,20 +204,20 @@ if __name__ == "__main__":
     print("Building site...")
 
     sync_css()
+    sync_assets()
+    sync_libs()
 
     compile_html(
         os.path.join(ROOT, "index.html"),
         os.path.join(SITE, "index.html"),
     )
-    compile_html(
-        os.path.join(ROOT, "gallery.html"),
-        os.path.join(SITE, "gallery", "index.html"),
-    )
 
+    compile_md(os.path.join(ROOT, "404.md"), os.path.join(SITE, "404.html"), flat=True)
     compile_md(os.path.join(ROOT, "about.md"),      os.path.join(SITE, "about"))
     compile_md(os.path.join(ROOT, "experience.md"),  os.path.join(SITE, "experience"))
-    compile_md(os.path.join(ROOT, "projects", "booking.md"), os.path.join(SITE, "projects", "booking"))
-    compile_md(os.path.join(ROOT, "projects", "youtube.md"), os.path.join(SITE, "projects", "youtube"))
-    compile_md(os.path.join(ROOT, "projects", "dphi.md"),    os.path.join(SITE, "projects", "dphi"))
+    compile_md(os.path.join(ROOT, "projects", "earth-trip-visualizer.md"),  os.path.join(SITE, "projects", "earth-trip-visualizer"))
+    compile_md(os.path.join(ROOT, "projects", "poke-dojo.md"),              os.path.join(SITE, "projects", "poke-dojo"))
+    compile_md(os.path.join(ROOT, "projects", "pokemon-figure-tracker.md"), os.path.join(SITE, "projects", "pokemon-figure-tracker"))
+    compile_md(os.path.join(ROOT, "projects", "speed-reader.md"),           os.path.join(SITE, "projects", "speed-reader"))
 
     print("\nDone.")

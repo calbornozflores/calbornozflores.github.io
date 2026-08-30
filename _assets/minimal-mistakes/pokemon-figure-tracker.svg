@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Pokemon Figure Tracker">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#1e3a3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#g3)"/>
+  <rect x="320" y="140" width="160" height="110" rx="10" fill="none" stroke="#e63946" stroke-width="3" opacity="0.75"/>
+  <path d="M 320 175 L 480 175" stroke="#e63946" stroke-width="2" opacity="0.5"/>
+  <circle cx="470" cy="230" r="9" fill="#e63946"/>
+  <path d="M 470 214 v -18" stroke="#e63946" stroke-width="3"/>
+  <text x="400" y="330" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Pokémon Figure Tracker</text>
+  <text x="400" y="360" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#c9d8d3">Automated listing watcher · GitHub Actions</text>
+</svg>
