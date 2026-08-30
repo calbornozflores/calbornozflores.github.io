@@ -42,4 +42,4 @@ Runs entirely by opening `index.html` — no server, no dependencies, and the AI
 </div>
 ~~~
 
-[View on GitHub →](https://github.com/calbornozflores/speed-reader)
+[Try it live →](https://calbornozflores.github.io/speed-reader/) · [View on GitHub →](https://github.com/calbornozflores/speed-reader)

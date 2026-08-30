@@ -29,7 +29,7 @@ Personal portfolio and data science website for Claudio Albornoz Flores.
 │   ├── earth-trip-visualizer.md   Earth Trip Visualizer project page
 │   ├── poke-dojo.md               Poke Dojo project page (live demo: poke-dojo.fly.dev)
 │   ├── pokemon-figure-tracker.md  Pokémon Figure Tracker project page
-│   └── speed-reader.md            Speed Reader project page
+│   └── speed-reader.md            Speed Reader project page (live demo: calbornozflores.github.io/speed-reader)
 ├── _layout/               HTML layout templates (Franklin partials)
 │   ├── head.html          Page <head> + inserts body_layout.html
 │   ├── body_layout.html   Sidebar with author profile; opens #main div
@@ -112,7 +112,7 @@ All visual customisation lives here. Key components:
 |---|---|
 | `--accent` (#e63946) | CSS custom property — red accent used throughout |
 | `.btn--primary` | Overridden to use `--accent` |
-| `.btn--live` | Accent-filled button for the one project with an always-on live demo (Poke Dojo) |
+| `.btn--live` | Accent-filled button for a project with an always-on live demo (Poke Dojo, Speed Reader) |
 | `.timeline` / `.timeline-item` | Red left-border job timeline on Resume page |
 | `.skill-badge` | Pill-shaped tech tag |
 | `.skill-group` / `.skill-group-label` | Badge group with uppercase label |
@@ -144,4 +144,4 @@ This page is a manually-maintained mirror of `cv/refined-modern/main.tex` (a sep
 - Julia / Franklin not installed locally — Python build script is the only build path
 - `__site/` is committed to the repo and pushed to `gh-pages` for deployment
 - Site content fully reflects the CV as of the Data Engineer role at ClaroVTR (Jun 2026–present); see the "Keeping `experience.md` in sync" note above for future updates
-- 4 featured projects: `earth-trip-visualizer`, `poke-dojo` (live demo), `pokemon-figure-tracker`, `speed-reader`
+- 4 featured projects: `earth-trip-visualizer`, `poke-dojo` (live demo), `pokemon-figure-tracker`, `speed-reader` (live demo)
