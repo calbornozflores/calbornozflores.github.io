@@ -17,125 +17,328 @@
     <!-- For all browsers -->
     <link rel="stylesheet" href="/css/minimal-mistakes.css">
     <link rel="stylesheet" href="/css/adjust.css">
-    <!--[if IE ]>
-      <style>
-        /* old IE unsupported flexbox fixes */
-        .greedy-nav .site-title {
-          padding-right: 4em;
-        }
-        .greedy-nav button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          height: 100%;
-        }
-      </style>
-    <![endif]-->
-    <!-- start custom head snippets -->
-    <!-- insert favicons. use https://realfavicongenerator.net/ -->
-    <!-- end custom head snippets -->
+    <link rel="stylesheet" href="/css/pipeline.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <meta name="description" content="Claudio Albornoz Flores — Data Engineer & Machine Learning Practitioner. Homepage rendered as a data pipeline: hover a task to trace its dependencies, click a project for a summary.">
   </head>
-<body class="layout--splash">
-{{ insert masthead.html }}
-
+<body class="pipeline-page">
 <div class="initial-content">
-  <div class="page__hero--overlay"
-    style="background-color: #1a1a2e; background-image: url('/assets/minimal-mistakes/home-page.jpg');">
-    <div class="wrapper">
-      <h1 id="page-title" class="page__title" itemprop="headline">Claudio Albornoz Flores</h1>
-      <p class="page__lead">Data Engineer &amp; Machine Learning Practitioner<br>
-        <span style="font-size:0.7em; opacity:0.8; font-weight:400;">7+ years building ML &amp; data systems in telecom · Santiago, Chile</span>
-      </p>
-      <div class="hero-cta">
-        <a href="/about/" class="btn btn--light-outline">About Me</a>
-        <a href="/experience/" class="btn btn--primary">View Resume</a>
-      </div>
+  <div class="pl-header">
+    <h1 class="pl-name">claudio_dag <span class="pl-cursor">_</span></h1>
+    <div class="pl-header-right">
+      {{ insert nav_sandwich.html }}
+    </div>
+  </div>
+  <p class="pl-sub">Claudio Albornoz Flores — Data Engineer &amp; Machine Learning Practitioner. Hover a task to trace its dependencies. Click a project to open its summary. Click the root node for the full career graph.</p>
+
+  <div class="dag-viewport" id="dagViewport">
+    <div class="dag-scale" id="dagScale">
+      <svg class="edges" id="edgesSvg"></svg>
     </div>
   </div>
 
-  <div id="main" role="main">
-    <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-      <meta itemprop="description" content="Data Engineer & Machine Learning Practitioner — 7+ years building ML and data systems in telecom. Based in Santiago, Chile.">
-      <section class="page__content" itemprop="text">
-        <div class="feature__wrapper">
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/earth-trip-visualizer.svg" alt="Earth Trip Visualizer" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Earth Trip Visualizer</h2>
-                <div class="archive__item-excerpt">
-                  <span class="tech-tag-row">
-                    <span class="tech-tag">PyQt6</span>
-                    <span class="tech-tag">NumPy</span>
-                    <span class="tech-tag">ffmpeg</span>
-                  </span>
-                  <p>Desktop app that renders a cinematic 9:16 fly-through of a travel route on a 3D globe, using pure-numpy projection math — no Cartopy or matplotlib.</p>
-                </div>
-                <p><a href="https://github.com/calbornozflores/earth-trip-visualizer" class="btn btn--primary">View on GitHub</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/poke-dojo.svg" alt="Poke Dojo" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Poke Dojo</h2>
-                <div class="archive__item-excerpt">
-                  <span class="tech-tag-row">
-                    <span class="tech-tag">FastAPI</span>
-                    <span class="tech-tag">XGBoost</span>
-                    <span class="tech-tag">Fly.io</span>
-                  </span>
-                  <p>Full-stack Pokémon quiz app with five game modes, a real-time Battle Arena, cloud leaderboards, and a per-user XGBoost difficulty model.</p>
-                </div>
-                <p><a href="https://poke-dojo.fly.dev" class="btn btn--live">Try it live</a> <a href="https://github.com/calbornozflores/poke-dojo" class="btn btn--primary">View on GitHub</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/pokemon-figure-tracker.svg" alt="Pokemon Figure Tracker" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Pokémon Figure Tracker</h2>
-                <div class="archive__item-excerpt">
-                  <span class="tech-tag-row">
-                    <span class="tech-tag">GitHub Actions</span>
-                    <span class="tech-tag">Web Scraping</span>
-                    <span class="tech-tag">SMTP</span>
-                  </span>
-                  <p>Fully unattended cron scraper + emailer that watches an e-commerce site for new product listings and notifies before they sell out — no server required.</p>
-                </div>
-                <p><a href="https://github.com/calbornozflores/pokemon-figure-tracker" class="btn btn--primary">View on GitHub</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="feature__item">
-            <div class="archive__item">
-              <div class="archive__item-teaser">
-                <img src="/assets/minimal-mistakes/speed-reader.svg" alt="Speed Reader" />
-              </div>
-              <div class="archive__item-body">
-                <h2 class="archive__item-title">Speed Reader</h2>
-                <div class="archive__item-excerpt">
-                  <span class="tech-tag-row">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">No dependencies</span>
-                    <span class="tech-tag">Local AI</span>
-                  </span>
-                  <p>Zero-dependency browser RSVP speed reader with hand-written EPUB/RTF parsing and optional local-Ollama reading insights — no cloud calls.</p>
-                </div>
-                <p><a href="https://calbornozflores.github.io/speed-reader/" class="btn btn--live">Try it live</a> <a href="https://github.com/calbornozflores/speed-reader" class="btn btn--primary">View on GitHub</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </article>
+  <div id="belowGraph">
+    <div id="summarySlot"></div>
 
-    {{ insert foot.html }}
+    <div class="contact-strip">
+      <span class="cs-label">Get in touch</span>
+      <div class="contact-links">
+        <a href="mailto:c.albornoz.flores@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/calbornozflores/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/calbornozflores" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="pl-footer">&copy; Claudio Albornoz Flores.</div>
+  </div>
+</div>
+
+<script>
+  const PROJECTS = {
+    earth: {
+      name: "Earth Trip Visualizer",
+      img: "/assets/minimal-mistakes/earth-trip-visualizer.svg",
+      tags: ["PyQt6", "NumPy", "ffmpeg"],
+      desc: "Sharing a trip usually means a map screenshot or a slideshow. This PyQt6 desktop app turns a list of cities into a cinematic 9:16 fly-through of the route on a 3D globe — a from-scratch orthographic projection built on plain numpy, with great-circle slerp for the flight path and a log-space zoom easing curve. No Cartopy, no matplotlib. At high zoom the renderer swaps in reprojected satellite tiles, and a full render takes about 30 seconds for a two-city trip.",
+      links: [{ label: "View on GitHub", href: "https://github.com/calbornozflores/earth-trip-visualizer", kind: "gh" }]
+    },
+    poke: {
+      name: "Poke Dojo",
+      img: "/assets/minimal-mistakes/poke-dojo.svg",
+      tags: ["FastAPI", "XGBoost", "Fly.io"],
+      desc: "A full-stack quiz app with five game modes, a real-time Battle Arena (2-player VS and Solo Challenge), a Daily Challenge, and cloud leaderboards. FastAPI and SQLAlchemy back a Jinja2/vanilla-JS frontend, with a Supabase Postgres database for the global leaderboard. Each player gets their own XGBoost model trained on their answer history, surfacing the questions that are hardest for them specifically, and a Shadow opponent in Solo mode learns to mimic the player’s own response times.",
+      links: [
+        { label: "View on GitHub", href: "https://github.com/calbornozflores/poke-dojo", kind: "gh" }
+      ]
+    },
+    poke_web: {
+      name: "Poke Dojo Web",
+      img: "/assets/minimal-mistakes/poke-dojo-web.svg",
+      tags: ["JavaScript", "localStorage", "GitHub Pages"],
+      desc: "A static, client-side port of Poke Dojo's three quiz game modes — Dojo's nine solo drills, the two-player/solo Battle Arena, and a Daily Challenge shared by every visitor via a deterministic date formula — running entirely in the browser with no server, account, or login. Every backend call and database write from the original FastAPI app is replaced with plain JavaScript and localStorage, so scores and streaks are saved to the visitor's own browser instead of a shared leaderboard.",
+      links: [
+        { label: "Try it live", href: "https://calbornozflores.github.io/poke-dojo-web/", kind: "live" },
+        { label: "View on GitHub", href: "https://github.com/calbornozflores/poke-dojo-web", kind: "gh" }
+      ]
+    },
+    tracker: {
+      name: "Pokémon Figure Tracker",
+      img: "/assets/minimal-mistakes/pokemon-figure-tracker.svg",
+      tags: ["GitHub Actions", "Web Scraping", "SMTP"],
+      desc: "A daily-scheduled scraper and emailer that watches a retail site for newly listed collectible figures and notifies before they sell out — running entirely on GitHub Actions, with no server or laptop involved. It respects the target site’s robots.txt and a politeness delay, diffs already-seen product codes against the previous run, and commits its own state back to the repository, turning GitHub Actions into a zero-infrastructure, idempotent cron job.",
+      links: [{ label: "View on GitHub", href: "https://github.com/calbornozflores/pokemon-figure-tracker", kind: "gh" }]
+    },
+    speed: {
+      name: "Speed Reader",
+      img: "/assets/minimal-mistakes/speed-reader.svg",
+      tags: ["JavaScript", "No dependencies", "Local AI"],
+      desc: "A browser-based RSVP speed reader that displays text one word at a time at a configurable pace, supporting pasted text plus .txt, .epub, and .rtf files — with zero build tooling or framework dependencies. EPUB files are unzipped with the browser’s native DecompressionStream and RTF is hand-parsed; an optional local-AI mode connects to a locally-running Ollama model for incremental reading insights, with no calls to any cloud service.",
+      links: [
+        { label: "Try it live", href: "https://calbornozflores.github.io/speed-reader/", kind: "live" },
+        { label: "View on GitHub", href: "https://github.com/calbornozflores/speed-reader", kind: "gh" }
+      ]
+    }
+  };
+
+  const STAGE_DESC = {
+    foundations: "Languages and systems fundamentals — Python, Spark, and the engineering habits that feed every downstream task.",
+    ml_stack: "Cloud and ML tooling — powers the tasks that need modelling or a hosted backend.",
+    you: "Entry point of the DAG. Everything downstream traces back here — click to see the full career graph."
+  };
+
+  const NODES = [
+    { id: "you", label: "claudio", kind: "you", you: true },
+    { id: "foundations", label: "foundations", kind: "stage · py · spark · systems" },
+    { id: "ml_stack", label: "ml_stack", kind: "stage · cloud · xgboost" },
+    { id: "earth", label: "earth_trip_visualizer", kind: "task · success", project: "earth" },
+    { id: "poke", label: "poke_dojo", kind: "task · success", project: "poke" },
+    { id: "poke_web", label: "poke_dojo_web", kind: "task · success", project: "poke_web" },
+    { id: "tracker", label: "figure_tracker", kind: "task · success", project: "tracker" },
+    { id: "speed", label: "speed_reader", kind: "task · success", project: "speed" }
+  ];
+  const EDGES = [
+    ["you", "foundations"], ["you", "ml_stack"],
+    ["foundations", "earth"], ["foundations", "tracker"], ["foundations", "speed"], ["foundations", "poke"],
+    ["ml_stack", "poke"], ["poke", "poke_web"]
+  ];
+
+  // Everything below measures real rendered text to lay the graph out, so it must run
+  // only once web fonts have actually swapped in — measuring against the fallback font
+  // would produce sizes that don't match what's on screen a moment later.
+  Promise.all([
+    document.fonts.load('400 12px "IBM Plex Mono"'),
+    document.fonts.load('500 12px "IBM Plex Mono"'),
+    document.fonts.load('600 12px "IBM Plex Mono"'),
+  ]).then(() => {
+  const svg = document.getElementById("edgesSvg");
+  const dagScale = document.getElementById("dagScale");
+  const dagViewport = document.getElementById("dagViewport");
+  const belowGraph = document.getElementById("belowGraph");
+  const summarySlot = document.getElementById("summarySlot");
+
+  // ---- Layout, two passes ----
+  // Pass 1: render each node's real content (no position yet) and MEASURE its actual
+  // rendered size. Nodes never wrap (see .node{white-space:nowrap} in pipeline.css), so
+  // this is the true, exact box size — not an estimate from counting characters, which
+  // is what caused nodes to be laid out too close together and then overlap once the
+  // (longer-than-assumed) date/kind line actually rendered.
+  const nodeEls = {};
+  NODES.forEach(n => {
+    const el = document.createElement("div");
+    el.className = "node" + (n.you ? " you-node" : "");
+    el.id = "n-" + n.id;
+    el.dataset.id = n.id;
+    el.innerHTML = '<div class="n-id">' + n.label + "</div>" +
+      '<div class="n-kind"><i></i>' + n.kind + "</div>" +
+      (n.you ? '<span class="n-hint">→ view experience</span>' : "");
+    dagScale.appendChild(el);
+    nodeEls[n.id] = el;
+  });
+  NODES.forEach(n => {
+    const r = nodeEls[n.id].getBoundingClientRect();
+    n.measuredW = Math.ceil(r.width) + 6;
+    n.measuredH = Math.ceil(r.height) + 4;
+  });
+
+  // Pass 2: hand the exact measured sizes to dagre — only 7 nodes here, spaced
+  // generously, unlike the denser Experience graph.
+  const g = new dagre.graphlib.Graph();
+  g.setGraph({ rankdir: "LR", nodesep: 34, ranksep: 96, marginx: 24, marginy: 34 });
+  g.setDefaultEdgeLabel(() => ({}));
+  NODES.forEach(n => g.setNode(n.id, { width: n.measuredW, height: n.measuredH }));
+  EDGES.forEach(([a, b]) => g.setEdge(a, b));
+  dagre.layout(g);
+
+  const byId = Object.fromEntries(NODES.map(n => [n.id, { ...n, ...g.node(n.id) }]));
+  const naturalW = g.graph().width, naturalH = g.graph().height;
+  svg.setAttribute("width", naturalW);
+  svg.setAttribute("height", naturalH);
+  dagScale.style.width = naturalW + "px";
+  dagScale.style.height = naturalH + "px";
+
+  NODES.forEach(n => {
+    const p = byId[n.id];
+    nodeEls[n.id].style.left = p.x + "px";
+    nodeEls[n.id].style.top = p.y + "px";
+  });
+
+  EDGES.forEach(([a, b]) => {
+    const A = byId[a], B = byId[b];
+    const mx = (A.x + B.x) / 2;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("class", "edge");
+    path.dataset.src = a; path.dataset.dst = b;
+    path.setAttribute("d", "M " + (A.x + A.width / 2) + " " + A.y + " C " + mx + " " + A.y + ", " + mx + " " + B.y + ", " + (B.x - B.width / 2) + " " + B.y);
+    svg.appendChild(path);
+  });
+
+  // ---- Fit-to-screen baseline, plus interactive zoom/pan on top of it ----
+  let zoom = 1, panX = 0, panY = 0, fitZoom = 1;
+  const ZOOM_MIN_MULT = 0.5, ZOOM_MAX_MULT = 3.5;
+
+  function applyTransform() {
+    dagScale.style.transformOrigin = "0 0";
+    dagScale.style.transform = "translate(" + panX + "px," + panY + "px) scale(" + zoom + ")";
+  }
+  function computeFit() {
+    const availW = dagViewport.clientWidth;
+    const top = dagViewport.getBoundingClientRect().top;
+    const belowH = belowGraph.getBoundingClientRect().height;
+    const vpStyle = getComputedStyle(dagViewport);
+    const reserved = parseFloat(vpStyle.marginBottom) || 0;
+    const contentStyle = getComputedStyle(document.querySelector(".initial-content"));
+    const contentPaddingBottom = parseFloat(contentStyle.paddingBottom) || 0;
+    const availH = Math.max(140, window.innerHeight - top - belowH - reserved - contentPaddingBottom - 16);
+    fitZoom = Math.min(availW / naturalW, availH / naturalH, 1);
+    dagViewport.style.height = Math.round(naturalH * fitZoom) + "px";
+  }
+  function resetView() {
+    computeFit();
+    zoom = fitZoom;
+    panX = Math.max(0, (dagViewport.clientWidth - naturalW * fitZoom) / 2);
+    panY = Math.max(0, (dagViewport.clientHeight - naturalH * fitZoom) / 2);
+    applyTransform();
+  }
+  function setZoomAt(newZoom, atX, atY) {
+    newZoom = Math.min(fitZoom * ZOOM_MAX_MULT, Math.max(fitZoom * ZOOM_MIN_MULT, newZoom));
+    const gx = (atX - panX) / zoom, gy = (atY - panY) / zoom;
+    panX = atX - gx * newZoom;
+    panY = atY - gy * newZoom;
+    zoom = newZoom;
+    applyTransform();
+  }
+  window.addEventListener("resize", resetView);
+  resetView();
+
+  dagViewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const rect = dagViewport.getBoundingClientRect();
+    // Scale the zoom step by how far the wheel actually moved, not by event count —
+    // a trackpad fires many small events per swipe where a mouse fires one big one per notch,
+    // so a fixed per-event factor made trackpad zoom race away. Cap guards against momentum-scroll spikes.
+    const d = Math.max(-60, Math.min(60, e.deltaY));
+    const factor = Math.exp(-d * 0.0014);
+    setZoomAt(zoom * factor, e.clientX - rect.left, e.clientY - rect.top);
+  }, { passive: false });
+
+  let dragging = false, dragMoved = false, lastX = 0, lastY = 0;
+  dagViewport.addEventListener("mousedown", (e) => {
+    dragging = true; dragMoved = false; lastX = e.clientX; lastY = e.clientY;
+    dagViewport.classList.add("dragging");
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragMoved = true;
+    panX += dx; panY += dy;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  window.addEventListener("mouseup", () => { dragging = false; dagViewport.classList.remove("dragging"); });
+
+  const nodeElList = [...document.querySelectorAll(".node")];
+  const edgeEls = [...document.querySelectorAll(".edge")];
+
+  function ancestors(id, acc) {
+    acc = acc || new Set();
+    EDGES.forEach(([a, b]) => { if (b === id && !acc.has(a)) { acc.add(a); ancestors(a, acc); } });
+    return acc;
+  }
+  function descendants(id, acc) {
+    acc = acc || new Set();
+    EDGES.forEach(([a, b]) => { if (a === id && !acc.has(b)) { acc.add(b); descendants(b, acc); } });
+    return acc;
+  }
+  function clearTrace() {
+    nodeElList.forEach(n => n.classList.remove("lit", "dim"));
+    edgeEls.forEach(e => e.classList.remove("lit", "dim"));
+  }
+  function applyTrace(id) {
+    clearTrace();
+    const set = new Set([id, ...ancestors(id), ...descendants(id)]);
+    nodeElList.forEach(n => n.classList.add(set.has(n.dataset.id) ? "lit" : "dim"));
+    edgeEls.forEach(e => e.classList.add((set.has(e.dataset.src) && set.has(e.dataset.dst)) ? "lit" : "dim"));
+  }
+
+  let pinned = null;
+
+  function scrollToPanel(el) {
+    if (!el) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+
+  function renderSummary() {
+    if (!pinned) { summarySlot.innerHTML = ""; resetView(); return; }
+    const p = PROJECTS[pinned];
+    const ctas = p.links.map(l =>
+      '<a class="' + (l.kind === "live" ? "btn-live" : "btn-gh") + '" href="' + l.href + '" target="_blank" rel="noopener">' + l.label + "</a>"
+    ).join("");
+    summarySlot.innerHTML =
+      '<div class="summary" id="summary-' + pinned + '">' +
+        '<button class="close-btn" id="closeSummary" aria-label="Close summary">×</button>' +
+        '<img src="' + p.img + '" alt="' + p.name + '">' +
+        "<div>" +
+          "<h3>" + p.name + "</h3>" +
+          '<div class="tags">' + p.tags.map(t => "<span>" + t + "</span>").join("") + "</div>" +
+          "<p>" + p.desc + "</p>" +
+          '<div class="cta-row">' + ctas + "</div>" +
+          '<p class="further">For further details, see the source on GitHub.</p>' +
+        "</div>" +
+      "</div>";
+    document.getElementById("closeSummary").addEventListener("click", () => { pinned = null; renderSummary(); syncPinnedNode(); });
+    resetView();
+    scrollToPanel(document.getElementById("summary-" + pinned));
+  }
+
+  function syncPinnedNode() {
+    nodeElList.forEach(n => n.classList.toggle("pinned", n.dataset.id && byId[n.dataset.id].project === pinned && !!pinned));
+    if (pinned) { applyTrace(Object.keys(byId).find(k => byId[k].project === pinned)); }
+  }
+
+  nodeElList.forEach(el => {
+    const id = el.dataset.id;
+    el.addEventListener("mouseenter", () => applyTrace(id));
+    el.addEventListener("mouseleave", () => {
+      if (pinned) { syncPinnedNode(); } else { clearTrace(); }
+    });
+    el.addEventListener("click", () => {
+      if (dragMoved) { dragMoved = false; return; }
+      const n = byId[id];
+      if (n.you) { window.location.href = "/experience/"; return; }
+      if (n.project) {
+        pinned = pinned === n.project ? null : n.project;
+        renderSummary();
+        syncPinnedNode();
+      }
+    });
+  });
+  }); // document.fonts.ready
+</script>
+
+{{ insert foot_scripts.html }}
+</body>
+</html>

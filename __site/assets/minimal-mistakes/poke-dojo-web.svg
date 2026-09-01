@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Poke Dojo Web">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141a2e"/>
+      <stop offset="100%" stop-color="#1a2e3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#g3)"/>
+  <circle cx="400" cy="190" r="90" fill="none" stroke="#3ddbd9" stroke-width="4" opacity="0.7"/>
+  <line x1="310" y1="190" x2="490" y2="190" stroke="#3ddbd9" stroke-width="4" opacity="0.7"/>
+  <circle cx="400" cy="190" r="16" fill="#ffffff" opacity="0.85"/>
+  <circle cx="400" cy="190" r="16" fill="none" stroke="#3ddbd9" stroke-width="3"/>
+  <text x="400" y="330" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="34" font-weight="700" fill="#ffffff">Poke Dojo Web</text>
+  <text x="400" y="360" text-anchor="middle" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#c9d8d6">Browser quiz games · No login · Static site</text>
+</svg>

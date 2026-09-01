@@ -36,17 +36,36 @@
 </head>
 <body class="layout--single">
   <div class="masthead">
-
   <div class="masthead__inner-wrap">
-    <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        <a class="site-title" href="/">Home</a>
-        <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/about/" >About Me</a></li>
-          <li class="masthead__menu-item"><a href="/experience/" >Resume</a></li>
-        </ul>
-      </nav>
-    </div>
+    <a class="site-title" href="/">Claudio Albornoz Flores</a>
+    <div class="nav-sandwich">
+  <button class="nav-sandwich__btn" id="navSandwichBtn" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-sandwich__menu" id="navSandwichMenu">
+    <a href="/">Projects</a>
+    <a href="/experience/">Experience</a>
+  </div>
+</div>
+<script>
+  (function () {
+    var btn = document.getElementById("navSandwichBtn");
+    var menu = document.getElementById("navSandwichMenu");
+    if (!btn || !menu) return;
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = menu.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove("is-open");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  })();
+</script>
+
   </div>
 </div>
 

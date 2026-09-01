@@ -1,0 +1,9 @@
+[project]
+name = "pipeline-visual-tests"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "playwright>=1.48",
+    "pillow>=10.0",
+    "markdown>=3.6",
+]

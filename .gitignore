@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# tests/ is a dev-only tool (see CLAUDE.md) — its venv and generated
+# screenshots don't belong in the repo (uv.lock does, for reproducible installs).
+tests/.venv/
+tests/screenshots/

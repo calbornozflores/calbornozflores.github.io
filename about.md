@@ -55,4 +55,4 @@ I got my degree in *Ingeniería Civil Matemática* from Universidad de La Fronte
 <span class="section-label">Outside of work</span>
 ~~~
 
-Outside of my day job I build small software projects end-to-end — from a [3D globe renderer](/projects/earth-trip-visualizer/) that turns a travel itinerary into an Instagram Stories video, to CLI tools and automations that fix a specific annoyance in my own life. A few of the ones I'm most proud of are on the [homepage](/) and linked from my [GitHub](https://github.com/calbornozflores).
+Outside of my day job I build small software projects end-to-end — from a 3D globe renderer that turns a travel itinerary into an Instagram Stories video, to CLI tools and automations that fix a specific annoyance in my own life. A few of the ones I'm most proud of are on the [homepage](/) — click a project node there for a summary — and linked from my [GitHub](https://github.com/calbornozflores).

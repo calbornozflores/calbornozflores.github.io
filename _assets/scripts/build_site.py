@@ -211,13 +211,12 @@ if __name__ == "__main__":
         os.path.join(ROOT, "index.html"),
         os.path.join(SITE, "index.html"),
     )
+    compile_html(
+        os.path.join(ROOT, "experience.html"),
+        os.path.join(SITE, "experience", "index.html"),
+    )
 
     compile_md(os.path.join(ROOT, "404.md"), os.path.join(SITE, "404.html"), flat=True)
-    compile_md(os.path.join(ROOT, "about.md"),      os.path.join(SITE, "about"))
-    compile_md(os.path.join(ROOT, "experience.md"),  os.path.join(SITE, "experience"))
-    compile_md(os.path.join(ROOT, "projects", "earth-trip-visualizer.md"),  os.path.join(SITE, "projects", "earth-trip-visualizer"))
-    compile_md(os.path.join(ROOT, "projects", "poke-dojo.md"),              os.path.join(SITE, "projects", "poke-dojo"))
-    compile_md(os.path.join(ROOT, "projects", "pokemon-figure-tracker.md"), os.path.join(SITE, "projects", "pokemon-figure-tracker"))
-    compile_md(os.path.join(ROOT, "projects", "speed-reader.md"),           os.path.join(SITE, "projects", "speed-reader"))
+    compile_md(os.path.join(ROOT, "about.md"), os.path.join(SITE, "about"))
 
     print("\nDone.")

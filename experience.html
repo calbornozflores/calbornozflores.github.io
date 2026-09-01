@@ -22,34 +22,7 @@
   <div class="pl-header">
     <h1 class="pl-name">career_dag <span class="pl-cursor">_</span></h1>
     <div class="pl-header-right">
-      <div class="nav-sandwich">
-  <button class="nav-sandwich__btn" id="navSandwichBtn" aria-label="Toggle navigation" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-sandwich__menu" id="navSandwichMenu">
-    <a href="/">Projects</a>
-    <a href="/experience/">Experience</a>
-  </div>
-</div>
-<script>
-  (function () {
-    var btn = document.getElementById("navSandwichBtn");
-    var menu = document.getElementById("navSandwichMenu");
-    if (!btn || !menu) return;
-    btn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var open = menu.classList.toggle("is-open");
-      btn.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    document.addEventListener("click", function (e) {
-      if (!menu.contains(e.target) && e.target !== btn) {
-        menu.classList.remove("is-open");
-        btn.setAttribute("aria-expanded", "false");
-      }
-    });
-  })();
-</script>
-
+      {{ insert nav_sandwich.html }}
     </div>
   </div>
   <p class="pl-sub">10 roles since 2013, plus education, certifications, and recognitions. Where two things overlap in time — two roles, or a role and an achievement — they branch into a parallel node instead of stacking on the main line. Click any node to read the full detail below.</p>
@@ -384,7 +357,6 @@
   }); // document.fonts.ready
 </script>
 
-<script src="/libs/minimal-mistakes/main.min.js"></script>
-
+{{ insert foot_scripts.html }}
 </body>
 </html>
