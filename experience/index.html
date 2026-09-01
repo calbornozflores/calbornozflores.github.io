@@ -1,305 +1,390 @@
 <!doctype html>
-<!--
-  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
-  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
-  Free for personal and commercial use under the MIT license
-  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
--->
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  
-  <link rel="stylesheet" href="/css/franklin.css">
-<link rel="stylesheet" href="/css/minimal-mistakes.css">
-<link rel="stylesheet" href="/css/adjust.css">
-<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<html lang="en" class="no-js">
+  <head>
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <title>Experience — Claudio Albornoz Flores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+    </script>
+    <link rel="stylesheet" href="/css/minimal-mistakes.css">
+    <link rel="stylesheet" href="/css/adjust.css">
+    <link rel="stylesheet" href="/css/pipeline.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <meta name="description" content="Claudio Albornoz Flores — career graph: 10 roles since 2013 plus education, certifications, and recognitions, shown as a dependency graph with parallel nodes wherever things overlap in time.">
+  </head>
+<body class="pipeline-page">
+<div class="initial-content">
+  <div class="pl-header">
+    <h1 class="pl-name">career_dag <span class="pl-cursor">_</span></h1>
+    <div class="pl-header-right">
+      <div class="nav-sandwich">
+  <button class="nav-sandwich__btn" id="navSandwichBtn" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-sandwich__menu" id="navSandwichMenu">
+    <a href="/">Projects</a>
+    <a href="/experience/">Experience</a>
+  </div>
+</div>
+<script>
+  (function () {
+    var btn = document.getElementById("navSandwichBtn");
+    var menu = document.getElementById("navSandwichMenu");
+    if (!btn || !menu) return;
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = menu.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove("is-open");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  })();
+</script>
 
-<!--[if IE ]>
-<style>
-  /* old IE unsupported flexbox fixes */
-  .greedy-nav .site-title {
-    padding-right: 3em;
+    </div>
+  </div>
+  <p class="pl-sub">10 roles since 2013, plus education, certifications, and recognitions. Where two things overlap in time — two roles, or a role and an achievement — they branch into a parallel node instead of stacking on the main line. Click any node to read the full detail below.</p>
+
+  <div class="pl-legend">
+    <span><i></i> Role</span>
+    <span><i class="ach"></i> Education / certification / recognition</span>
+  </div>
+
+  <div class="dag-viewport" id="dagViewport">
+    <div class="dag-scale" id="dagScale">
+      <svg class="edges" id="edgesSvg"></svg>
+    </div>
+  </div>
+
+  <div id="belowGraph">
+    <div id="detailSlot"></div>
+    <div class="pl-footer"><a href="/">← Back to home</a> · &copy; Claudio Albornoz Flores.</div>
+  </div>
+</div>
+
+<script>
+  // ---- Jobs: box label is short; full CV bullets live here for the hover/click detail ----
+  const JOBS = {
+    course_assistant: { label: "Course Assistant", title: "Course Assistant", company: "Universidad de La Frontera", place: "Temuco, Chile", date: "Mar 2013 – Jun 2016",
+      bullets: ["Parallel Computing, Programming in C++, Applied Numerical Methods, Ordinary Differential Equations, Calculus."] },
+    instituto: { label: "Developer", title: "Developer", company: "Instituto de Informática Educativa", place: "Temuco, Chile", date: "Sept 2014 – Nov 2014",
+      bullets: ["Generation of algorithms for pattern recognition on text."] },
+    sgs: { label: "Data Analyst (SGS)", title: "Data Analyst Internship", company: "SGS Mineral Services", place: "Santiago, Chile", date: "Dec 2014 – Feb 2015",
+      bullets: ["Optimization of grinding and flotation processes for mineral processing.", "Reduction of rock sampling time for on-site mining analysis."] },
+    research_intern: { label: "Research Internship", title: "Research Internship", company: "Telefónica I+D", place: "Santiago, Chile", date: "Sept 2016 – Feb 2017",
+      bullets: ["Design of a spatial geopositioning algorithm.", "Geopositioning based on mobile phone billing data."] },
+    junior_researcher: { label: "Junior Researcher", title: "Junior Researcher", company: "Telefónica I+D", place: "Santiago, Chile", date: "Jun 2017 – Oct 2017",
+      bullets: ["Analysis and implementation of accuracy improvements in spatial geopositioning algorithms.", "Utilization of Google Maps Platform's Places API and Elevation Service for terrain topology and POI queries.", "Coverage estimation through spatial tessellation, antenna technology, and Timing Advance."] },
+    telefonica_dev: { label: "Developer", title: "Developer", company: "Telefónica I+D", place: "Santiago, Chile", date: "Nov 2017 – May 2018",
+      bullets: ["Design, implementation, and improvement of geospatial analysis algorithms.", "Estimation of urban mobility based on mobile phone billing data.", "Migration of a local spatial geopositioning algorithm to Microsoft Azure for automated ETL in Spark."] },
+    senior_ds: { label: "Senior Data Scientist", title: "Senior Data Scientist", company: "VTR · Liberty Latin America · ClaroVTR", place: "Santiago, Chile", date: "Jun 2018 – Dec 2022",
+      bullets: ["Training in Linux for data cleaning and formatting, use of Spark in Data Science, and general machine learning concepts.", "Code optimization to reduce processing times.", "Development and implementation of various predictive models using Feature Engineering with technical and commercial data, scoring generation, and customer segmentation."] },
+    tech_lead: { label: "Data Science Tech Lead", title: "Data Science Tech Lead", company: "VTR · Liberty Latin America · ClaroVTR", place: "Santiago, Chile", date: "Jan 2023 – Sept 2025",
+      bullets: ["Led and mentored a team of 3 data scientists as Tech Lead, owning technical roadmap and architecture decisions, code review standards, and cross-team stakeholder coordination.", "Process automation using Airflow.", "Creation of a Feature Engineering framework in PySpark, data monitoring process, cloud-based code versioning process, and web scraping extraction processes.", "Delivered the Mobile Postpaid Churn Propensity Model Towards Key Competitors, predicting customer churn risk driven by competitor activity using machine learning."] },
+    ai_specialist: { label: "AI Specialist", title: "AI Specialist", company: "Xinergy Procurement Consulting", place: "Santiago, Chile (Remote)", date: "May 2025 – Sept 2025",
+      bullets: ["Expense classification system aligned with the UNSPSC international standard, leveraging Gemini LLMs and embedding-based classification models.", "Automated outsourcing contract generation system leveraging Gemini LLMs and Retrieval Augmented Generation (RAG) with LangChain."] },
+    data_engineer: { label: "Data Engineer", title: "Data Engineer", company: "ClaroVTR", place: "Santiago, Chile (Remote)", date: "Jun 2026 – Present",
+      bullets: ["Monitoring and maintenance of automated data pipelines and processes, ensuring reliability and timely issue resolution.", "Code review and audit across Data Engineering and Data Science projects to enforce quality and best-practice standards."] }
+  };
+
+  // ---- Achievements: box label is short; full text lives here for the hover/click detail ----
+  const ACHIEVEMENTS = {
+    ufro_degree: { label: "UFRO Degree", title: "Ingeniería Civil Matemática", date: "2011 – 2016", desc: "Universidad de La Frontera. Final grade 6.7/7.0. Final project: Urban Spatial Mobility Algorithm to Improve the Estimation of the Origin-Destination Matrix in Santiago and La Serena. Coursework: parallel and distributed computing, optimization, applied numerical methods." },
+    acm_icpc: { label: "ACM ICPC", title: "ACM ICPC Contestant", date: "2014", place: "Talca, Chile", desc: "Contestant, Latin America Programming Contest." },
+    best_grad: { label: "Best Graduate", title: "Best Graduating Student", date: "2016", desc: "Ingeniería Civil Matemática, Universidad de La Frontera." },
+    spark_summit: { label: "Spark Summit", title: "Spark Summit", date: "2019", place: "San Francisco, USA", desc: "Attendee." },
+    hp_prize: { label: "Performance Prize", title: "High Performance Recognition Prize", date: "2021", desc: "Awarded by Liberty Latin America." },
+    ufro_council: { label: "UFRO Council", title: "Consejo de Carrera, UFRO", date: "2020 – 2025", desc: "Member, Consejo de Carrera Ingeniería Civil Matemática." },
+    google_next: { label: "Google Next", title: "Google Next", date: "2024", place: "Las Vegas, USA", desc: "Attendee." },
+    gcp_badges: { label: "GCP Skills Boost", title: "Google Cloud Skills Boost", date: "Jul 2024", place: "Santiago, Chile",
+      bullets: ["Computer Vision Fundamentals with Google Cloud.", "Build and Deploy Machine Learning Solutions on Vertex AI.", "Recommendation Systems on Google Cloud.", "Prepare Data for ML APIs on Google Cloud."] },
+    english_c1: { label: "English C1 Course", title: "English C1", date: "Mar 2025 – Jul 2026", place: "Limerick, Ireland", desc: "NED Language School, C1 Level (Student of the Month, July 2025)." },
+    cambridge_c1: { label: "Cambridge C1 Certification", title: "Cambridge English C1 Advanced", date: "Aug 2025", place: "Dublin, Ireland", desc: "Cambridge English Assessment, C1 Advanced." }
+  };
+
+  const JOB_IDS = Object.keys(JOBS);
+  const ACH_IDS = Object.keys(ACHIEVEMENTS);
+  const ALL_IDS = [...JOB_IDS, ...ACH_IDS];
+
+  const MAIN_EDGES = [
+    ["course_assistant", "research_intern"], ["research_intern", "junior_researcher"],
+    ["junior_researcher", "telefonica_dev"], ["telefonica_dev", "senior_ds"],
+    ["senior_ds", "tech_lead"], ["tech_lead", "data_engineer"]
+  ];
+  // Concurrent-role edges point FROM the main-chain job TO the overlapping one, so the
+  // layout engine places the overlap at the very next rank — stacked, never overlapping.
+  const PARALLEL_EDGES = [["course_assistant", "instituto"], ["course_assistant", "sgs"], ["tech_lead", "ai_specialist"]];
+  // Achievement edges point FROM the job(s) active at the time TO the achievement, for the same reason.
+  const ACH_EDGES = [
+    ["ufro_degree", "course_assistant"],
+    ["course_assistant", "acm_icpc"], ["course_assistant", "best_grad"],
+    ["senior_ds", "spark_summit"], ["senior_ds", "hp_prize"],
+    ["senior_ds", "ufro_council"], ["tech_lead", "ufro_council"],
+    ["tech_lead", "google_next"], ["tech_lead", "gcp_badges"],
+    ["tech_lead", "english_c1"], ["ai_specialist", "english_c1"],
+    ["tech_lead", "cambridge_c1"], ["ai_specialist", "cambridge_c1"]
+  ];
+  const ALL_EDGES = [...MAIN_EDGES, ...PARALLEL_EDGES, ...ACH_EDGES];
+
+  // ---- Time rule: nodes must render in chronological start-date order left-to-right.
+  // dagre only orders by graph structure, not by date, so same-rank siblings (nodes that
+  // just branch off the same parent) need explicit help — never assume dagre's default
+  // sibling order happens to match the calendar.
+  //
+  // (a) Sibling ordering: layout-only hint edges, fed to dagre for ranking but deliberately
+  // NOT part of ALL_EDGES — they must never be drawn or show up in applyTrace()'s
+  // ancestor/descendant walk, since there's no real dependency between the two nodes, only
+  // a "renders after" requirement. Add a pair here whenever a new node needs to be placed
+  // after another sibling under the same parent(s).
+  const ORDER_EDGES = [
+    ["google_next", "ai_specialist"],  // AI Specialist (May 2025) renders after both
+    ["gcp_badges", "ai_specialist"],   // 2024 achievements it chronologically follows
+  ];
+
+  // Everything below measures real rendered text to lay the graph out, so it must run
+  // only once web fonts have actually swapped in — measuring against the fallback font
+  // would produce sizes that don't match what's on screen a moment later.
+  Promise.all([
+    document.fonts.load('400 12px "IBM Plex Mono"'),
+    document.fonts.load('500 12px "IBM Plex Mono"'),
+    document.fonts.load('600 12px "IBM Plex Mono"'),
+  ]).then(() => {
+  const svg = document.getElementById("edgesSvg");
+  const dagScale = document.getElementById("dagScale");
+  const dagViewport = document.getElementById("dagViewport");
+  const belowGraph = document.getElementById("belowGraph");
+  const detailSlot = document.getElementById("detailSlot");
+
+  // ---- Layout, two passes ----
+  // Pass 1: render each node's real content (no position yet) and MEASURE its actual
+  // rendered size. Nodes never wrap (see .node{white-space:nowrap} in pipeline.css), so
+  // this is the true, exact box size — not an estimate from counting characters, which
+  // is what caused nodes to be laid out too close together and then overlap once the
+  // (longer-than-assumed) date line actually rendered.
+  const nodeEls = {};
+  ALL_IDS.forEach(id => {
+    const rec = JOBS[id] || ACHIEVEMENTS[id];
+    const el = document.createElement("div");
+    el.className = "node" + (ACHIEVEMENTS[id] ? " achievement small" : "");
+    el.id = "n-" + id;
+    el.dataset.id = id;
+    el.innerHTML = '<div class="n-id">' + rec.label + "</div>" +
+      '<div class="n-kind"><i></i>' + rec.date + "</div>";
+    dagScale.appendChild(el);
+    nodeEls[id] = el;
+  });
+  const measured = {};
+  ALL_IDS.forEach(id => {
+    const r = nodeEls[id].getBoundingClientRect();
+    measured[id] = { width: Math.ceil(r.width) + 6, height: Math.ceil(r.height) + 4 };
+  });
+
+  // Pass 2: hand the exact measured sizes to dagre.
+  const g = new dagre.graphlib.Graph();
+  g.setGraph({ rankdir: "LR", nodesep: 18, ranksep: 40, marginx: 16, marginy: 34 });
+  g.setDefaultEdgeLabel(() => ({}));
+  ALL_IDS.forEach(id => g.setNode(id, measured[id]));
+  ALL_EDGES.forEach(([a, b]) => g.setEdge(a, b));
+  ORDER_EDGES.forEach(([a, b]) => g.setEdge(a, b));
+  // (b) "Current role is always last": data_engineer is the ongoing role, so no branch —
+  // however deep — should ever end up ranked after it. A minlen on its own incoming edge
+  // (layout only; MAIN_EDGES keeps the plain pair for drawing) is simpler than chaining
+  // every branch leaf into it, and doesn't need updating when a new leaf is added elsewhere.
+  // Set to exactly one more than the deepest current branch (tech_lead → ai_specialist →
+  // english_c1/cambridge_c1, depth 3) — any looser wastes a whole empty, unnecessarily
+  // wide rank column for no benefit; bump it if a future branch ever gets deeper than this.
+  g.setEdge("tech_lead", "data_engineer", { minlen: 4 });
+  dagre.layout(g);
+
+  const byId = Object.fromEntries(ALL_IDS.map(id => [id, g.node(id)]));
+  const naturalW = g.graph().width, naturalH = g.graph().height;
+  svg.setAttribute("width", naturalW);
+  svg.setAttribute("height", naturalH);
+  dagScale.style.width = naturalW + "px";
+  dagScale.style.height = naturalH + "px";
+
+  ALL_IDS.forEach(id => {
+    const p = byId[id];
+    nodeEls[id].style.left = p.x + "px";
+    nodeEls[id].style.top = p.y + "px";
+  });
+
+  function drawEdge(a, b, cls) {
+    const A = byId[a], B = byId[b];
+    const mx = (A.x + B.x) / 2;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("class", "edge " + cls);
+    path.dataset.src = a; path.dataset.dst = b;
+    path.setAttribute("d", "M " + (A.x + A.width / 2) + " " + A.y + " C " + mx + " " + A.y + ", " + mx + " " + B.y + ", " + (B.x - B.width / 2) + " " + B.y);
+    svg.appendChild(path);
   }
-  .greedy-nav button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
+  MAIN_EDGES.forEach(([a, b]) => drawEdge(a, b, ""));
+  PARALLEL_EDGES.forEach(([a, b]) => drawEdge(a, b, "parallel-edge"));
+  ACH_EDGES.forEach(([a, b]) => drawEdge(a, b, "ach-edge"));
+
+  // ---- Fit-to-screen baseline, plus interactive zoom/pan on top of it ----
+  let zoom = 1, panX = 0, panY = 0, fitZoom = 1;
+  const ZOOM_MIN_MULT = 0.5, ZOOM_MAX_MULT = 3.5;
+
+  function applyTransform() {
+    dagScale.style.transformOrigin = "0 0";
+    dagScale.style.transform = "translate(" + panX + "px," + panY + "px) scale(" + zoom + ")";
   }
-</style>
-<![endif]-->
+  function computeFit() {
+    // Unlike the homepage, this graph is deliberately allowed to be wider than the viewport
+    // (see resetView() below) — it's fit to the available HEIGHT only, not width, so the
+    // default view is bigger than a both-dimensions fit would allow. Width still caps growth
+    // past the graph's natural (unscaled) size.
+    const top = dagViewport.getBoundingClientRect().top;
+    const belowH = belowGraph.getBoundingClientRect().height;
+    const vpStyle = getComputedStyle(dagViewport);
+    const reserved = parseFloat(vpStyle.marginBottom) || 0;
+    const contentStyle = getComputedStyle(document.querySelector(".initial-content"));
+    const contentPaddingBottom = parseFloat(contentStyle.paddingBottom) || 0;
+    const availH = Math.max(140, window.innerHeight - top - belowH - reserved - contentPaddingBottom - 16);
+    fitZoom = Math.min(availH / naturalH, 1);
+    dagViewport.style.height = Math.round(naturalH * fitZoom) + "px";
+  }
+  function resetView() {
+    computeFit();
+    zoom = fitZoom;
+    // Centered when the graph fits within the viewport width at this zoom; when it doesn't
+    // (the common case — this graph is far wider than tall), anchor to the RIGHT edge instead
+    // of the left, so the current/most-recent role is what's visible by default and the user
+    // pans (drag or wheel) left to see earlier history. diffX/2 vs diffX: when diffX >= 0
+    // (fits) the half is smaller (centers it); when diffX < 0 (cropped) the half is the
+    // *less* negative one, so plain diffX — full right-alignment — wins instead.
+    const diffX = dagViewport.clientWidth - naturalW * zoom;
+    panX = Math.min(diffX / 2, diffX);
+    panY = 0; // dagViewport's height is set to exactly naturalH*fitZoom above — no vertical slack
+    applyTransform();
+  }
+  function setZoomAt(newZoom, atX, atY) {
+    newZoom = Math.min(fitZoom * ZOOM_MAX_MULT, Math.max(fitZoom * ZOOM_MIN_MULT, newZoom));
+    const gx = (atX - panX) / zoom, gy = (atY - panY) / zoom;
+    panX = atX - gx * newZoom;
+    panY = atY - gy * newZoom;
+    zoom = newZoom;
+    applyTransform();
+  }
+  window.addEventListener("resize", resetView);
+  resetView();
 
-   <title>Resume</title>  
-  <!-- end custom head snippets -->
-</head>
-<body class="layout--single">
-  <div class="masthead">
+  dagViewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const rect = dagViewport.getBoundingClientRect();
+    // Scale the zoom step by how far the wheel actually moved, not by event count —
+    // a trackpad fires many small events per swipe where a mouse fires one big one per notch,
+    // so a fixed per-event factor made trackpad zoom race away. Cap guards against momentum-scroll spikes.
+    const d = Math.max(-60, Math.min(60, e.deltaY));
+    const factor = Math.exp(-d * 0.0014);
+    setZoomAt(zoom * factor, e.clientX - rect.left, e.clientY - rect.top);
+  }, { passive: false });
 
-  <div class="masthead__inner-wrap">
-    <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        <a class="site-title" href="/">Home</a>
-        <ul class="visible-links">
-          <li class="masthead__menu-item"><a href="/about/" >About Me</a></li>
-          <li class="masthead__menu-item"><a href="/experience/" >Resume</a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</div>
+  let dragging = false, dragMoved = false, lastX = 0, lastY = 0;
+  dagViewport.addEventListener("mousedown", (e) => {
+    dragging = true; dragMoved = false; lastX = e.clientX; lastY = e.clientY;
+    dagViewport.classList.add("dragging");
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragMoved = true;
+    panX += dx; panY += dy;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  window.addEventListener("mouseup", () => { dragging = false; dagViewport.classList.remove("dragging"); });
 
-  <div class="initial-content">
-    <div id="main" role="main">
-      <div class="sidebar sticky">
-        <div itemscope itemtype="https://schema.org/Person">
-          <div class="author__avatar">
-            <img src="/assets/minimal-mistakes/profile.png" alt="Profile Picture" itemprop="image">
-          </div>
-          <div class="author__content">
-            <h3 class="author__name" itemprop="name">Claudio Albornoz Flores</h3>
-            <p class="author__bio" itemprop="description">Data Engineer · Machine Learning · Cloud &amp; Automation</p>
-          </div>
-          <div class="author__urls-wrapper">
-            <button class="btn btn--inverse">Follow</button>
-            <ul class="author__urls social-icons">
-              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Chile</span></li>
-              <li><a href="https://www.linkedin.com/in/calbornozflores/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
-              <li><a href="https://github.com/calbornozflores" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
-              <li><a href="mailto:c.albornoz.flores@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+  const nodeElList = Object.values(nodeEls);
+  const edgeEls = [...document.querySelectorAll(".edge")];
 
+  function ancestors(id, acc) {
+    acc = acc || new Set();
+    ALL_EDGES.forEach(([a, b]) => { if (b === id && !acc.has(a)) { acc.add(a); ancestors(a, acc); } });
+    return acc;
+  }
+  function descendants(id, acc) {
+    acc = acc || new Set();
+    ALL_EDGES.forEach(([a, b]) => { if (a === id && !acc.has(b)) { acc.add(b); descendants(b, acc); } });
+    return acc;
+  }
+  function clearTrace() {
+    nodeElList.forEach(n => n.classList.remove("lit", "dim"));
+    edgeEls.forEach(e => e.classList.remove("lit", "dim"));
+  }
+  function applyTrace(id) {
+    clearTrace();
+    const set = new Set([id, ...ancestors(id), ...descendants(id)]);
+    nodeElList.forEach(n => n.classList.add(set.has(n.dataset.id) ? "lit" : "dim"));
+    edgeEls.forEach(e => e.classList.add((set.has(e.dataset.src) && set.has(e.dataset.dst)) ? "lit" : "dim"));
+  }
 
-<!-- Content appended here -->
+  let pinned = null;
 
-<div class="franklin-content">
-<h1>Resume</h1>
+  function scrollToPanel(el) {
+    if (!el) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
 
-<span class="section-label">Profile</span>
+  function detailHTML(id) {
+    const job = JOBS[id];
+    if (job) {
+      return '<div class="meta">' + job.company + " · " + job.place + " · " + job.date + "</div>" +
+        "<ul>" + job.bullets.map(b => "<li>" + b + "</li>").join("") + "</ul>";
+    }
+    const ach = ACHIEVEMENTS[id];
+    const metaLine = ach.place ? ach.place + " · " + ach.date : ach.date;
+    const body = ach.bullets
+      ? "<ul>" + ach.bullets.map(b => "<li>" + b + "</li>").join("") + "</ul>"
+      : "<p>" + ach.desc + "</p>";
+    return '<div class="meta">' + metaLine + "</div>" + body;
+  }
+  function renderDetail() {
+    if (!pinned) { detailSlot.innerHTML = ""; resetView(); return; }
+    const rec = JOBS[pinned] || ACHIEVEMENTS[pinned];
+    detailSlot.innerHTML =
+      '<div class="detail-card" id="detail-' + pinned + '">' +
+        '<button class="close-btn" id="closeDetail" aria-label="Close">×</button>' +
+        '<h3>' + rec.title + '</h3>' +
+        detailHTML(pinned) +
+      "</div>";
+    document.getElementById("closeDetail").addEventListener("click", () => { pinned = null; renderDetail(); syncPinnedNode(); });
+    resetView();
+    scrollToPanel(document.getElementById("detail-" + pinned));
+  }
+  function syncPinnedNode() {
+    nodeElList.forEach(n => n.classList.toggle("pinned", n.dataset.id === pinned));
+    if (pinned) { applyTrace(pinned); }
+  }
 
-<p>Data Scientist with 7 years of experience in machine learning models, software development, cloud computing, and custom algorithms to solve business problems. Passionate about self-improvement and continuous learning. Known for being easy-going, highly proactive, and strongly collaborative, valuing teamwork as a key to project success.</p>
-<p>Native Spanish speaker with C1 English proficiency.</p>
-<hr>
+  nodeElList.forEach(el => {
+    const id = el.dataset.id;
+    el.addEventListener("mouseenter", () => applyTrace(id));
+    el.addEventListener("mouseleave", () => {
+      if (pinned) { syncPinnedNode(); } else { clearTrace(); }
+    });
+    el.addEventListener("click", () => {
+      if (dragMoved) { dragMoved = false; return; }
+      pinned = pinned === id ? null : id;
+      renderDetail();
+      syncPinnedNode();
+    });
+  });
+  }); // document.fonts.ready
+</script>
 
-<span class="section-label">Experience</span>
+<script src="/libs/minimal-mistakes/main.min.js"></script>
 
-<div class="timeline">
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jun 2026 – Present</div>
-    <p class="timeline-title">Data Engineer</p>
-    <p class="timeline-company">ClaroVTR · Santiago, Chile (Remote)</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Monitoring and maintenance of automated data pipelines and processes, ensuring reliability and timely issue resolution.</li>
-        <li>Code review and audit across Data Engineering and Data Science projects to enforce quality and best-practice standards.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">May 2025 – Sept 2025</div>
-    <p class="timeline-title">AI Specialist</p>
-    <p class="timeline-company">Xinergy Procurement Consulting · Santiago, Chile (Remote)</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Expense classification system aligned with the UNSPSC international standard, leveraging Gemini LLMs and embedding-based classification models.</li>
-        <li>Automated outsourcing contract generation system leveraging Gemini LLMs and Retrieval Augmented Generation (RAG) with LangChain.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jan 2023 – Sept 2025</div>
-    <p class="timeline-title">Data Science Tech Lead</p>
-    <p class="timeline-company">VTR · Liberty Latin America · ClaroVTR · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Led and mentored a team of 3 data scientists as Tech Lead, owning technical roadmap and architecture decisions, code review standards, and cross-team stakeholder coordination.</li>
-        <li>Process automation using Airflow.</li>
-        <li>Creation of a Feature Engineering framework in PySpark, data monitoring process, cloud-based code versioning process, and web scraping extraction processes.</li>
-        <li>Delivered the Mobile Postpaid Churn Propensity Model Towards Key Competitors, predicting customer churn risk driven by competitor activity using machine learning.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jun 2018 – Dec 2022</div>
-    <p class="timeline-title">Senior Data Scientist</p>
-    <p class="timeline-company">VTR · Liberty Latin America · ClaroVTR · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Training in Linux for data cleaning and formatting, use of Spark in Data Science, and general machine learning concepts.</li>
-        <li>Code optimization to reduce processing times.</li>
-        <li>Development and implementation of various predictive models using Feature Engineering with technical and commercial data, scoring generation, and customer segmentation.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Nov 2017 – May 2018</div>
-    <p class="timeline-title">Developer</p>
-    <p class="timeline-company">Telefónica I+D · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Design, implementation, and improvement of geospatial analysis algorithms.</li>
-        <li>Estimation of urban mobility based on mobile phone billing data.</li>
-        <li>Migration of a local spatial geopositioning algorithm to Microsoft Azure for automated ETL in Spark.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Jun 2017 – Oct 2017</div>
-    <p class="timeline-title">Junior Researcher</p>
-    <p class="timeline-company">Telefónica I+D · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Analysis and implementation of accuracy improvements in spatial geopositioning algorithms.</li>
-        <li>Utilization of Google Maps Platform's Places API and Elevation Service for terrain topology and POI queries.</li>
-        <li>Coverage estimation through spatial tessellation, antenna technology, and Timing Advance.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Sep 2016 – Feb 2017</div>
-    <p class="timeline-title">Research Internship</p>
-    <p class="timeline-company">Telefónica I+D · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Design of a spatial geopositioning algorithm.</li>
-        <li>Geopositioning based on mobile phone billing data.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Mar 2013 – Jun 2016</div>
-    <p class="timeline-title">Course Assistant</p>
-    <p class="timeline-company">Universidad de La Frontera · Temuco, Chile</p>
-    <div class="timeline-desc">
-      Parallel Computing, Programming in C++, Applied Numerical Methods, Ordinary Differential Equations, Calculus.
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Dec 2014 – Feb 2015</div>
-    <p class="timeline-title">Data Analyst Internship</p>
-    <p class="timeline-company">SGS Mineral Services · Santiago, Chile</p>
-    <div class="timeline-desc">
-      <ul>
-        <li>Optimization of grinding and flotation processes for mineral processing.</li>
-        <li>Reduction of rock sampling time for on-site mining analysis.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="timeline-item">
-    <div class="timeline-date">Sep 2014 – Nov 2014</div>
-    <p class="timeline-title">Developer</p>
-    <p class="timeline-company">Instituto de Informática Educativa · Temuco, Chile</p>
-    <div class="timeline-desc">
-      Generation of algorithms for pattern recognition on text.
-    </div>
-  </div>
-
-</div>
-
-<hr>
-
-<span class="section-label">Education</span>
-
-<p><strong>Ingeniería Civil Matemática</strong> · Universidad de La Frontera · 2011–2016 · Final grade 6.7/7.0</p>
-<p>Final project: <em>Urban Spatial Mobility Algorithm to Improve the Estimation of the Origin-Destination Matrix in Santiago and La Serena.</em> Coursework: parallel and distributed computing, optimization, applied numerical methods.</p>
-<p><strong>Google Cloud Skills Boost</strong> · July 2024 · Santiago, Chile</p>
-<p>Computer Vision Fundamentals with Google Cloud · Build and Deploy Machine Learning Solutions on Vertex AI · Recommendation Systems on Google Cloud · Prepare Data for ML APIs on Google Cloud.</p>
-<p><strong>NED Language School</strong> · English Course, C1 Level · March 2025 – August 2025 · Limerick, Ireland — Student of the Month, July 2025.</p>
-<p><strong>Cambridge English Assessment</strong> · C1 Advanced · August 2025 · Dublin, Ireland.</p>
-<hr>
-
-<span class="section-label">Skills</span>
-
-<div class="skill-group">
-  <div class="skill-group-label">Programming Languages</div>
-  <span class="skill-badge">Python</span>
-  <span class="skill-badge">Scala</span>
-  <span class="skill-badge">Spark / PySpark</span>
-  <span class="skill-badge">R</span>
-  <span class="skill-badge">C++</span>
-  <span class="skill-badge">Bash</span>
-</div>
-
-<div class="skill-group">
-  <div class="skill-group-label">GCP</div>
-  <span class="skill-badge">Dataproc</span>
-  <span class="skill-badge">Vertex AI</span>
-  <span class="skill-badge">BigQuery</span>
-  <span class="skill-badge">Composer</span>
-</div>
-
-<div class="skill-group">
-  <div class="skill-group-label">AWS</div>
-  <span class="skill-badge">EMR</span>
-  <span class="skill-badge">SageMaker</span>
-  <span class="skill-badge">EC2</span>
-  <span class="skill-badge">Lambda</span>
-  <span class="skill-badge">Step Functions</span>
-</div>
-
-<div class="skill-group">
-  <div class="skill-group-label">Azure</div>
-  <span class="skill-badge">HDInsight</span>
-</div>
-
-<div class="skill-group">
-  <div class="skill-group-label">Languages</div>
-  <span class="skill-badge">Spanish (native)</span>
-  <span class="skill-badge">English (C1)</span>
-</div>
-
-<hr>
-
-<span class="section-label">Recognitions &amp; Activities</span>
-
-<div class="award-item"><span class="award-year">2024</span><span>Attendee — Google Next, Las Vegas, USA</span></div>
-<div class="award-item"><span class="award-year">2021</span><span>High Performance Recognition Prize — LLA</span></div>
-<div class="award-item"><span class="award-year">2020–2025</span><span>Member, Consejo de Carrera Ingeniería Civil Matemática, UFRO</span></div>
-<div class="award-item"><span class="award-year">2019</span><span>Attendee — Spark Summit, San Francisco, USA</span></div>
-<div class="award-item"><span class="award-year">2016</span><span>Best Graduating Student — Ingeniería Civil Matemática, UFRO</span></div>
-<div class="award-item"><span class="award-year">2014</span><span>Contestant — ACM ICPC Latin America Programming Contest, Talca, Chile</span></div>
-
-
-</div>
-<!-- CONTENT ENDS HERE -->
-
-      </div> <!-- closure of main -->
-    </div>   <!-- closure of class initial--content -->
-
-    <div class="page__footer">
-      <footer>
-        <!-- start custom footer snippets -->
-        <!-- end custom footer snippets -->
-        <div class="page__footer-follow">
-          <ul class="social-icons">
-            <li><strong>Follow:</strong></li>
-            <li><a href="https://www.linkedin.com/in/calbornozflores/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
-            <li><a href="https://github.com/calbornozflores" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
-          </ul>
-        </div>
-        <div class="page__footer-copyright">&copy; Claudio Albornoz Flores. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
-      </footer>
-    </div>
-
-    <script src="/libs/minimal-mistakes/main.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
-
-    
-    
-  </body>
+</body>
 </html>
