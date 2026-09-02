@@ -103,6 +103,13 @@
         { label: "Try it live", href: "https://calbornozflores.github.io/speed-reader/", kind: "live" },
         { label: "View on GitHub", href: "https://github.com/calbornozflores/speed-reader", kind: "gh" }
       ]
+    },
+    booking: {
+      name: "Booking Booking",
+      img: "/assets/minimal-mistakes/booking-booking.svg",
+      tags: ["Playwright", "Streamlit", "SQLite"],
+      desc: "A Playwright-based hotel search tool for Booking.com: give it a city and a date range and it collects listings — price, rating, reviews, distance from centre — through a Streamlit web UI or a CLI, exporting to CSV/JSON. Every search is persisted to a local SQLite database, and an Analyzer screen ranks past searches by value-for-money (price, rating, and review-count confidence, computed independently per currency), flagging best-value picks and price outliers. Booking.com fronts traffic with an anti-bot challenge, so the tool fails cleanly with no automatic retries rather than hammering a blocked session.",
+      links: [{ label: "View on GitHub", href: "https://github.com/calbornozflores/booking-booking", kind: "gh" }]
     }
   };
 
@@ -120,12 +127,13 @@
     { id: "poke", label: "poke_dojo", kind: "task · success", project: "poke" },
     { id: "poke_web", label: "poke_dojo_web", kind: "task · success", project: "poke_web" },
     { id: "tracker", label: "figure_tracker", kind: "task · success", project: "tracker" },
-    { id: "speed", label: "speed_reader", kind: "task · success", project: "speed" }
+    { id: "speed", label: "speed_reader", kind: "task · success", project: "speed" },
+    { id: "booking", label: "booking_booking", kind: "task · success", project: "booking" }
   ];
   const EDGES = [
     ["you", "foundations"], ["you", "ml_stack"],
     ["foundations", "earth"], ["foundations", "tracker"], ["foundations", "speed"], ["foundations", "poke"],
-    ["ml_stack", "poke"], ["poke", "poke_web"]
+    ["foundations", "booking"], ["ml_stack", "poke"], ["poke", "poke_web"]
   ];
 
   // Everything below measures real rendered text to lay the graph out, so it must run
