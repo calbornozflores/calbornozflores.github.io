@@ -69,6 +69,16 @@ html{ background:var(--bg); }
 .node.small .n-id{ font-size:.64rem; }
 .node.small .n-kind{ font-size:.54rem; }
 
+/* Collapsible group (homepage). Dashed like .achievement to read as "not a project";
+   its hint stays visible rather than appearing on hover, because a box you can expand
+   has to advertise that it expands. */
+.node.group-node{ background:var(--panel-2); border-style:dashed; text-align:center; }
+.node.group-node:hover, .node.group-node.lit{ border-color:var(--gold); border-style:solid; box-shadow:0 0 18px rgba(232,184,74,.25); }
+.node.group-node .n-kind{ justify-content:center; }
+.node.group-node .n-kind i{ background:var(--gold); }
+.node.group-node .n-hint{ display:block; font-size:.56rem; color:var(--gold); opacity:.8; transition:opacity .15s; margin-top:.3rem; }
+.node.group-node:hover .n-hint{ opacity:1; }
+
 .node.achievement{ background:var(--panel-2); border-style:dashed; }
 .node.achievement:hover, .node.achievement.lit{ border-color:var(--gold); border-style:solid; box-shadow:0 0 18px rgba(232,184,74,.25); }
 .node.achievement .n-kind i{ background:var(--gold); }

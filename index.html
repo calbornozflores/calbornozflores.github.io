@@ -104,6 +104,16 @@
         { label: "View on GitHub", href: "https://github.com/calbornozflores/speed-reader", kind: "gh" }
       ]
     },
+    pgol: {
+      name: "Pokémon Game of Life",
+      img: "/assets/minimal-mistakes/pokemon-game-of-life.svg",
+      tags: ["JavaScript", "Canvas", "GitHub Pages"],
+      desc: "Conway's Game of Life played across the full National Pokédex. All 1025 species start once on a 70×70 toroidal board and then evolve under the classic B3/S23 rules, with one departure: each generation rolls a single base stat, and when a cell is born the strongest of its three parents in that stat takes it. Survival stays pure Conway — stats only ever decide who wins a birth, never whether one happens. Species stop being unique after the first generation, so the board turns into a territory war that most of the dex loses: the extinction counter climbs past 1000 within a hundred generations. Runs entirely in the browser on a canvas, with every sprite packed into one 282 KB spritesheet so the deployed page makes no external requests at all.",
+      links: [
+        { label: "Try it live", href: "https://calbornozflores.github.io/pokemon-game-of-life/", kind: "live" },
+        { label: "View on GitHub", href: "https://github.com/calbornozflores/pokemon-game-of-life", kind: "gh" }
+      ]
+    },
     booking: {
       name: "Booking Booking",
       img: "/assets/minimal-mistakes/booking-booking.svg",
@@ -119,22 +129,38 @@
     you: "Entry point of the DAG. Everything downstream traces back here — click to see the full career graph."
   };
 
+  // Nodes carrying `parent` live inside a collapsible group and are only laid out
+  // while that group is expanded — the Pokémon games would otherwise crowd out
+  // the rest of the graph.
   const NODES = [
     { id: "you", label: "claudio", kind: "you", you: true },
     { id: "foundations", label: "foundations", kind: "stage · py · spark · systems" },
     { id: "ml_stack", label: "ml_stack", kind: "stage · cloud · xgboost" },
     { id: "earth", label: "earth_trip_visualizer", kind: "task · success", project: "earth" },
-    { id: "poke", label: "poke_dojo", kind: "task · success", project: "poke" },
-    { id: "poke_web", label: "poke_dojo_web", kind: "task · success", project: "poke_web" },
     { id: "tracker", label: "figure_tracker", kind: "task · success", project: "tracker" },
     { id: "speed", label: "speed_reader", kind: "task · success", project: "speed" },
-    { id: "booking", label: "booking_booking", kind: "task · success", project: "booking" }
+    { id: "booking", label: "booking_booking", kind: "task · success", project: "booking" },
+    { id: "entertainment", label: "entertainment", kind: "group · 3 projects", group: true },
+    { id: "poke", label: "poke_dojo", kind: "task · success", project: "poke", parent: "entertainment" },
+    { id: "poke_web", label: "poke_dojo_web", kind: "task · success", project: "poke_web", parent: "entertainment" },
+    { id: "pgol", label: "pokemon_game_of_life", kind: "task · success", project: "pgol", parent: "entertainment" }
   ];
+  // The group is the single gateway to its children in both states, so ml_stack's
+  // dependency on the Pokémon work survives collapsing.
   const EDGES = [
     ["you", "foundations"], ["you", "ml_stack"],
-    ["foundations", "earth"], ["foundations", "tracker"], ["foundations", "speed"], ["foundations", "poke"],
-    ["foundations", "booking"], ["ml_stack", "poke"], ["poke", "poke_web"]
+    ["foundations", "earth"], ["foundations", "tracker"], ["foundations", "speed"],
+    ["foundations", "booking"], ["foundations", "entertainment"], ["ml_stack", "entertainment"],
+    ["entertainment", "poke"], ["entertainment", "pgol"], ["poke", "poke_web"]
   ];
+
+  // ---- Collapsible group state ----
+  let expanded = false;
+  function visibleNodes() { return NODES.filter(n => !n.parent || expanded); }
+  function visibleEdges() {
+    const vis = new Set(visibleNodes().map(n => n.id));
+    return EDGES.filter(([a, b]) => vis.has(a) && vis.has(b));
+  }
 
   // Everything below measures real rendered text to lay the graph out, so it must run
   // only once web fonts have actually swapped in — measuring against the fallback font
@@ -151,60 +177,89 @@
   const summarySlot = document.getElementById("summarySlot");
 
   // ---- Layout, two passes ----
-  // Pass 1: render each node's real content (no position yet) and MEASURE its actual
-  // rendered size. Nodes never wrap (see .node{white-space:nowrap} in pipeline.css), so
-  // this is the true, exact box size — not an estimate from counting characters, which
-  // is what caused nodes to be laid out too close together and then overlap once the
-  // (longer-than-assumed) date/kind line actually rendered.
-  const nodeEls = {};
-  NODES.forEach(n => {
-    const el = document.createElement("div");
-    el.className = "node" + (n.you ? " you-node" : "");
-    el.id = "n-" + n.id;
-    el.dataset.id = n.id;
-    el.innerHTML = '<div class="n-id">' + n.label + "</div>" +
-      '<div class="n-kind"><i></i>' + n.kind + "</div>" +
-      (n.you ? '<span class="n-hint">→ view experience</span>' : "");
-    dagScale.appendChild(el);
-    nodeEls[n.id] = el;
-  });
-  NODES.forEach(n => {
-    const r = nodeEls[n.id].getBoundingClientRect();
-    n.measuredW = Math.ceil(r.width) + 6;
-    n.measuredH = Math.ceil(r.height) + 4;
-  });
+  // Runs again whenever the entertainment group is expanded or collapsed, so every
+  // value it produces is reassignable state rather than a one-shot const.
+  let byId = {}, naturalW = 0, naturalH = 0;
+  let nodeEls = {}, nodeElList = [], edgeEls = [], shownEdges = [];
 
-  // Pass 2: hand the exact measured sizes to dagre — only 7 nodes here, spaced
-  // generously, unlike the denser Experience graph.
-  const g = new dagre.graphlib.Graph();
-  g.setGraph({ rankdir: "LR", nodesep: 34, ranksep: 96, marginx: 24, marginy: 34 });
-  g.setDefaultEdgeLabel(() => ({}));
-  NODES.forEach(n => g.setNode(n.id, { width: n.measuredW, height: n.measuredH }));
-  EDGES.forEach(([a, b]) => g.setEdge(a, b));
-  dagre.layout(g);
+  function renderGraph() {
+    const shownNodes = visibleNodes();
+    shownEdges = visibleEdges();
 
-  const byId = Object.fromEntries(NODES.map(n => [n.id, { ...n, ...g.node(n.id) }]));
-  const naturalW = g.graph().width, naturalH = g.graph().height;
-  svg.setAttribute("width", naturalW);
-  svg.setAttribute("height", naturalH);
-  dagScale.style.width = naturalW + "px";
-  dagScale.style.height = naturalH + "px";
+    // Start from a clean slate; the previous pass's elements carry stale positions
+    // and listeners bound to the previous byId.
+    Object.values(nodeEls).forEach(el => el.remove());
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    nodeEls = {};
 
-  NODES.forEach(n => {
-    const p = byId[n.id];
-    nodeEls[n.id].style.left = p.x + "px";
-    nodeEls[n.id].style.top = p.y + "px";
-  });
+    // Pass 1: render each node's real content (no position yet) and MEASURE its actual
+    // rendered size. Nodes never wrap (see .node{white-space:nowrap} in pipeline.css), so
+    // this is the true, exact box size — not an estimate from counting characters, which
+    // is what caused nodes to be laid out too close together and then overlap once the
+    // (longer-than-assumed) date/kind line actually rendered.
+    shownNodes.forEach(n => {
+      const el = document.createElement("div");
+      el.className = "node" + (n.you ? " you-node" : "") + (n.group ? " group-node" : "");
+      el.id = "n-" + n.id;
+      el.dataset.id = n.id;
+      el.innerHTML = '<div class="n-id">' + n.label + "</div>" +
+        '<div class="n-kind"><i></i>' + n.kind + "</div>" +
+        (n.you ? '<span class="n-hint">→ view experience</span>' : "") +
+        (n.group ? '<span class="n-hint">' + (expanded ? "→ click to collapse" : "→ click to expand") + "</span>" : "");
+      dagScale.appendChild(el);
+      nodeEls[n.id] = el;
+    });
+    shownNodes.forEach(n => {
+      // offsetWidth/Height, not getBoundingClientRect(): by the time a re-render
+      // happens, #dagScale already carries a `transform: scale()`, and a rect is
+      // measured through that scale. Feeding scaled boxes back into dagre made the
+      // graph drift a little more with every expand/collapse. offset* is layout
+      // based and ignores transforms on the element and its ancestors alike.
+      const el = nodeEls[n.id];
+      n.measuredW = el.offsetWidth + 6;
+      n.measuredH = el.offsetHeight + 4;
+    });
 
-  EDGES.forEach(([a, b]) => {
-    const A = byId[a], B = byId[b];
-    const mx = (A.x + B.x) / 2;
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("class", "edge");
-    path.dataset.src = a; path.dataset.dst = b;
-    path.setAttribute("d", "M " + (A.x + A.width / 2) + " " + A.y + " C " + mx + " " + A.y + ", " + mx + " " + B.y + ", " + (B.x - B.width / 2) + " " + B.y);
-    svg.appendChild(path);
-  });
+    // Pass 2: hand the exact measured sizes to dagre — few nodes here, spaced
+    // generously, unlike the denser Experience graph.
+    const g = new dagre.graphlib.Graph();
+    g.setGraph({ rankdir: "LR", nodesep: 34, ranksep: 96, marginx: 24, marginy: 34 });
+    g.setDefaultEdgeLabel(() => ({}));
+    shownNodes.forEach(n => g.setNode(n.id, { width: n.measuredW, height: n.measuredH }));
+    shownEdges.forEach(([a, b]) => g.setEdge(a, b));
+    dagre.layout(g);
+
+    byId = Object.fromEntries(shownNodes.map(n => [n.id, { ...n, ...g.node(n.id) }]));
+    naturalW = g.graph().width; naturalH = g.graph().height;
+    svg.setAttribute("width", naturalW);
+    svg.setAttribute("height", naturalH);
+    dagScale.style.width = naturalW + "px";
+    dagScale.style.height = naturalH + "px";
+
+    shownNodes.forEach(n => {
+      const p = byId[n.id];
+      nodeEls[n.id].style.left = p.x + "px";
+      nodeEls[n.id].style.top = p.y + "px";
+    });
+
+    shownEdges.forEach(([a, b]) => {
+      const A = byId[a], B = byId[b];
+      const mx = (A.x + B.x) / 2;
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("class", "edge");
+      path.dataset.src = a; path.dataset.dst = b;
+      path.setAttribute("d", "M " + (A.x + A.width / 2) + " " + A.y + " C " + mx + " " + A.y + ", " + mx + " " + B.y + ", " + (B.x - B.width / 2) + " " + B.y);
+      svg.appendChild(path);
+    });
+
+    // Rebuilt every pass: a snapshot taken once would never see nodes that an
+    // expansion created.
+    nodeElList = Object.values(nodeEls);
+    edgeEls = [...svg.querySelectorAll(".edge")];
+    bindNodes();
+  }
+
+  renderGraph();
 
   // ---- Fit-to-screen baseline, plus interactive zoom/pan on top of it ----
   let zoom = 1, panX = 0, panY = 0, fitZoom = 1;
@@ -270,17 +325,16 @@
   });
   window.addEventListener("mouseup", () => { dragging = false; dagViewport.classList.remove("dragging"); });
 
-  const nodeElList = [...document.querySelectorAll(".node")];
-  const edgeEls = [...document.querySelectorAll(".edge")];
-
+  // Trace walks the edges currently on screen, not the full set — otherwise a
+  // collapsed group would light nodes that aren't rendered.
   function ancestors(id, acc) {
     acc = acc || new Set();
-    EDGES.forEach(([a, b]) => { if (b === id && !acc.has(a)) { acc.add(a); ancestors(a, acc); } });
+    shownEdges.forEach(([a, b]) => { if (b === id && !acc.has(a)) { acc.add(a); ancestors(a, acc); } });
     return acc;
   }
   function descendants(id, acc) {
     acc = acc || new Set();
-    EDGES.forEach(([a, b]) => { if (a === id && !acc.has(b)) { acc.add(b); descendants(b, acc); } });
+    shownEdges.forEach(([a, b]) => { if (a === id && !acc.has(b)) { acc.add(b); descendants(b, acc); } });
     return acc;
   }
   function clearTrace() {
@@ -330,23 +384,35 @@
     if (pinned) { applyTrace(Object.keys(byId).find(k => byId[k].project === pinned)); }
   }
 
-  nodeElList.forEach(el => {
-    const id = el.dataset.id;
-    el.addEventListener("mouseenter", () => applyTrace(id));
-    el.addEventListener("mouseleave", () => {
-      if (pinned) { syncPinnedNode(); } else { clearTrace(); }
+  function bindNodes() {
+    nodeElList.forEach(el => {
+      const id = el.dataset.id;
+      el.addEventListener("mouseenter", () => applyTrace(id));
+      el.addEventListener("mouseleave", () => {
+        if (pinned) { syncPinnedNode(); } else { clearTrace(); }
+      });
+      el.addEventListener("click", () => {
+        if (dragMoved) { dragMoved = false; return; }
+        const n = byId[id];
+        if (n.you) { window.location.href = "/experience/"; return; }
+        if (n.group) { toggleGroup(); return; }
+        if (n.project) {
+          pinned = pinned === n.project ? null : n.project;
+          renderSummary();
+          syncPinnedNode();
+        }
+      });
     });
-    el.addEventListener("click", () => {
-      if (dragMoved) { dragMoved = false; return; }
-      const n = byId[id];
-      if (n.you) { window.location.href = "/experience/"; return; }
-      if (n.project) {
-        pinned = pinned === n.project ? null : n.project;
-        renderSummary();
-        syncPinnedNode();
-      }
-    });
-  });
+  }
+
+  function toggleGroup() {
+    expanded = !expanded;
+    // A panel must not outlive the node that opened it.
+    const stillVisible = visibleNodes().some(n => n.project && n.project === pinned);
+    if (pinned && !stillVisible) { pinned = null; renderSummary(); }
+    renderGraph();
+    resetView();
+  }
   }); // document.fonts.ready
 </script>
 

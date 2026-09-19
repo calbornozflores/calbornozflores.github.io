@@ -121,7 +121,7 @@ This whole two-pass process is wrapped in `Promise.all([document.fonts.load(...)
 
 **Fit-to-screen has diverged between the two pages** — they used to share identical `computeFit()`/`resetView()` code, but no longer do, because their graphs have fundamentally different shapes:
 
-- **`index.html`** (7 nodes, roughly as tall as it is wide): `computeFit()` fits **both** width and height (`fitZoom = min(availW/naturalW, availH/naturalH, 1)`), so the whole graph is always visible with no cropping — the original, simpler model. `resetView()` centers it (`panX`/`panY` from leftover space on each axis, not zeroed) whenever it's smaller than the viewport on either axis.
+- **`index.html`** (8 nodes collapsed, 11 with the `entertainment` group expanded; roughly as tall as it is wide): `computeFit()` fits **both** width and height (`fitZoom = min(availW/naturalW, availH/naturalH, 1)`), so the whole graph is always visible with no cropping — the original, simpler model. `resetView()` centers it (`panX`/`panY` from leftover space on each axis, not zeroed) whenever it's smaller than the viewport on either axis.
 - **`experience.html`** (20 nodes, much wider than tall): `computeFit()` fits **height only** (`fitZoom = min(availH/naturalH, 1)`) — width is not part of the constraint, so the default zoom is bigger than a both-dimensions fit would ever allow. The graph is then usually wider than the viewport at that zoom, and `resetView()` deliberately anchors it to the **right edge** rather than centering: `panX = Math.min(diffX/2, diffX)` where `diffX = clientWidth - naturalW*zoom` — this picks the centered value when the graph fits (`diffX >= 0`) and the full right-alignment value when it doesn't (`diffX < 0`), in one expression. The rationale: a career timeline's most-recent/current entry (rightmost, since older→newer runs left→right) is what a visitor cares about by default; earlier history is reached by dragging or wheel-panning left. This was a deliberate, requested trade-off — a full-width breakout (letting the DAG use the whole browser window instead of the header's ~1300px column) was tried first and reverted after review: it looked inconsistent with the text above it, so the graph is capped to that same column width, and the "look bigger" goal is met by cropping (fit-to-height + right-anchor) instead of by widening the column.
 
 Both pages still share: a small floor (140px) in `computeFit()` on the vertical space it'll assume it has, purely so `naturalH * factor` never comes out as `NaN`/negative — it does **not** protect against overflow, so it must never be raised without re-verifying via `tests/visual_check.py` that no scrollbar reappears (raising it was exactly what caused a real regression once). `resetView()` runs on initial load, on window resize, and after every pin/unpin click on both pages.
@@ -145,7 +145,31 @@ Reclaiming that space (plus trimming header/subtitle margins) let `computeFit()`
 - **Click a project node**: toggles `pinned` and calls `renderSummary()`, which injects a `.summary` card (image, tags, full description, CTA buttons, a closing "for further details, see GitHub" line) into `#summarySlot`. Clicking the same node again, or its close button, un-pins it. The pinned state persists independently of hover — `syncPinnedNode()` re-applies the trace highlight for the pinned node on `mouseleave` so it doesn't reset. Because the summary panel changes the page's total height, both `renderSummary()` and its close handler call `resetView()` again. When a panel is newly shown (not closed), `renderSummary()` also calls `scrollToPanel()`, which smooth-scrolls it into view (`scrollIntoView({behavior:"smooth", block:"start"})`, instant instead under `prefers-reduced-motion`) — the panel usually renders below the fold, and this is the same `scrollToPanel()` helper `experience.html`'s `renderDetail()` uses for its `.detail-card`.
 - **Click the `you` node**: navigates to `/experience/` (real page load, not in-page).
 - Contact links (email/LinkedIn/GitHub — no phone or address) live in `.contact-strip` at the bottom.
-- Dagre config: `nodesep: 34, ranksep: 96` — deliberately roomier than `experience.html`'s, since only 7 nodes need to fit; already fits at scale 1 (`fitZoom` is capped at 1 here).
+### Collapsible `entertainment` group (homepage)
+
+`poke`, `poke_web` and `pgol` carry `parent: "entertainment"` and are laid out only while
+the group is expanded — adding every Pokémon game as a top-level node crowded the graph.
+`visibleNodes()`/`visibleEdges()` filter on an `expanded` flag; clicking the group node
+calls `toggleGroup()`, which never opens a panel of its own. The group is the single
+gateway to its children in both states, so `ml_stack`'s dependency survives collapsing.
+
+Because the layout now runs more than once, three things that were safe as one-shot
+`const`s are state: `byId`, `naturalW`/`naturalH`, and the `nodeElList`/`edgeEls`
+snapshots (a snapshot taken once would never see nodes an expansion created — the same
+reason `experience.html` uses `Object.values(nodeEls)`). `ancestors()`/`descendants()`
+walk the *visible* edges, or a collapsed group would light nodes that aren't rendered.
+
+**Measure nodes with `offsetWidth`/`offsetHeight`, never `getBoundingClientRect()`.**
+By the time a re-render happens, `#dagScale` already carries a `transform: scale()`, and
+a rect is measured *through* that scale. Feeding scaled boxes back into dagre made the
+graph drift on every expand/collapse (919px → 831px for an identical collapsed state).
+`offset*` is layout-based and ignores transforms. `visual_check.py` asserts the graph
+width is unchanged after an expand/collapse round trip.
+
+Collapsing clears `pinned` when the pinned project's node is no longer visible, so a
+panel can't outlive the node that opened it.
+
+- Dagre config: `nodesep: 34, ranksep: 96` — deliberately roomier than `experience.html`'s, since few nodes need to fit; already fits at scale 1 (`fitZoom` is capped at 1 here).
 
 ### `experience.html`
 - One graph, three conceptual lanes emerging from dagre's own ranking (not fixed y-coordinates): the main sequential job chain (`MAIN_EDGES`), concurrent/overlapping jobs branching off it (`PARALLEL_EDGES` — e.g. the AI Specialist stint overlapping the Tech Lead role), and education/certifications/recognitions branching off the job(s) they overlap (`ACH_EDGES`, dashed, class `.achievement`). **Edge direction convention**: for both of these, the edge points *from* the main-chain job *to* the branch (e.g. `tech_lead → ai_specialist`), which is what makes dagre place the branch at the very next rank/column and stack it vertically without overlap — pointing it the other way ranks the branch *before* its main node, which is backwards. An item overlapping two jobs (e.g. `ufro_council` spanning both Senior Data Scientist and Tech Lead) just gets two edges. See "Time rule" below for the additional `ORDER_EDGES`/`minlen` mechanisms that keep rank order chronological.
@@ -157,7 +181,7 @@ Reclaiming that space (plus trimming header/subtitle margins) let `computeFit()`
 There is no automated sync with `cv/refined-modern/main.tex` (a separate, private project). When the CV changes:
 - New/changed role → update `JOBS` in `experience.html` (and re-check whether it introduces a new time overlap requiring a parallel node/edge).
 - New education/cert/recognition → add an entry to `ACHIEVEMENTS` and at least one edge in `ACH_EDGES` to whichever job(s) were active at that time.
-- New project → add an entry to `PROJECTS` in `index.html`, a task node + edge in `NODES`/`EDGES`, and its SVG banner under `_assets/minimal-mistakes/`.
+- New project → add an entry to `PROJECTS` in `index.html`, a task node + edge in `NODES`/`EDGES`, and its SVG banner under `_assets/minimal-mistakes/`. A game belongs inside the `entertainment` group: give its node `parent: "entertainment"` and an `entertainment → <id>` edge, and bump the group's `kind` count.
 
 Do not copy the CV PDF itself into this repo. **After any change to either page, run `tests/visual_check.py`** (see "Testing" below) rather than eyeballing it — every check in that script maps to a real bug this graph has already had once.
 
@@ -197,7 +221,7 @@ The one check that's a judgment call rather than a hard invariant is the homepag
 - Julia / Franklin not installed locally — Python build script is the only build path
 - `__site/` is committed to the repo and pushed to `gh-pages` for deployment
 - Homepage and Experience page are both dagre-laid-out "Pipeline" DAGs (see above) with pan/zoom and no idle log panel (see "Pan, zoom, and the removal of the log panel"); About page is the only remaining Franklin-markdown content page
-- 6 featured projects, all summarized in-page on the homepage (no standalone project pages): `earth-trip-visualizer` (live demo — a from-scratch JS/Canvas port of the projection math, served from that repo's `docs/` on GitHub Pages since Pages can't run ffmpeg/Python; no video export, watch-only), `poke-dojo`, `poke-dojo-web` (live demo — a client-side, no-login static port of poke-dojo's game modes, chained as the next task after `poke` in `NODES`/`EDGES` since it's a follow-on to it), `pokemon-figure-tracker`, `speed-reader` (live demo), `booking-booking` (no live demo — a local CLI/Streamlit tool, not something GitHub Pages can host). `poke-dojo` itself has no live-demo link on the site (its Fly.io hosting isn't the one linked from here) — `poke-dojo-web`'s GitHub Pages deployment is the live link for that game now.
+- 7 featured projects, all summarized in-page on the homepage (no standalone project pages): `earth-trip-visualizer` (live demo — a from-scratch JS/Canvas port of the projection math, served from that repo's `docs/` on GitHub Pages since Pages can't run ffmpeg/Python; no video export, watch-only), `poke-dojo`, `poke-dojo-web` (live demo — a client-side, no-login static port of poke-dojo's game modes, chained as the next task after `poke` in `NODES`/`EDGES` since it's a follow-on to it), `pokemon-figure-tracker`, `speed-reader` (live demo), `booking-booking` (no live demo — a local CLI/Streamlit tool, not something GitHub Pages can host), `pokemon-game-of-life` (live demo — Conway's Game of Life over all 1025 species, births decided by a base-stat contest). The three Pokémon games sit inside the collapsed `entertainment` group node. `poke-dojo` itself has no live-demo link on the site (its Fly.io hosting isn't the one linked from here) — `poke-dojo-web`'s GitHub Pages deployment is the live link for that game now.
 - `ymca-swim-booker` and `file-vault` remain deliberately unfeatured (see "No Pokémon branding remains..." above) — don't add either without the user explicitly asking again; this was checked and confirmed still true as of September 2026.
 - Nav is a hamburger ("sandwich") menu everywhere, linking only Projects (`/`) and Experience — see `_layout/nav_sandwich.html`
 - `tests/visual_check.py` exists specifically because this pair of pages has already hit overlap, clipping, overflow, and scrollbar bugs once each — run it after touching either page, per "Testing" above

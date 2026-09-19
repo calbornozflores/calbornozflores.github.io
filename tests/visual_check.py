@@ -297,6 +297,48 @@ def run_interaction_smoke_test(page, path, label):
     )
 
     if path == "/":
+        # poke_dojo now lives inside the collapsed `entertainment` group, so the group
+        # has to be opened before the node it holds even exists in the DOM.
+        check(
+            f"{label}: grouped nodes are hidden until the group is expanded",
+            page.query_selector("#n-poke") is None and page.query_selector("#n-pgol") is None,
+            "grouped nodes rendered while collapsed",
+        )
+        real_click(page, "#n-entertainment")
+        page.wait_for_selector("#n-poke", timeout=3000)
+        check(
+            f"{label}: expanding the group reveals its projects",
+            all(page.query_selector(sel) for sel in ("#n-poke", "#n-poke_web", "#n-pgol")),
+            "expanded group is missing children",
+        )
+
+        # The expanded graph is the widest the homepage ever gets, and the layout pass
+        # only ever runs its checks against the collapsed default.
+        exp_rects = page.eval_on_selector_all(
+            ".node", "els => els.map(e => { const r = e.getBoundingClientRect(); return [e.dataset.id, r.left, r.top, r.right, r.bottom]; })"
+        )
+        overlaps = [
+            (a[0], b[0])
+            for i, a in enumerate(exp_rects)
+            for b in exp_rects[i + 1:]
+            if rects_overlap(
+                {"left": a[1], "top": a[2], "right": a[3], "bottom": a[4]},
+                {"left": b[1], "top": b[2], "right": b[3], "bottom": b[4]},
+            )
+        ]
+        check(f"{label}: expanded graph has no overlapping nodes", not overlaps, f"overlapping: {overlaps}")
+        vp = page.eval_on_selector(
+            "#dagViewport", "el => { const r = el.getBoundingClientRect(); return {left: r.left, right: r.right}; }"
+        )
+        outside = [r[0] for r in exp_rects if r[1] < vp["left"] - 2 or r[3] > vp["right"] + 2]
+        check(f"{label}: expanded graph stays inside the viewport", not outside, f"outside: {outside}")
+        expanded_scale = get_scale(page)
+        check(
+            f"{label}: expanded graph stays above the scale floor",
+            expanded_scale >= SCALE_FLOOR["/"],
+            f"{expanded_scale} < {SCALE_FLOOR['/']}",
+        )
+
         node_id, close_selector, expect_text = "#n-poke", "#closeSummary", "Poke Dojo"
         panel_selector = ".summary"
     else:
@@ -317,6 +359,36 @@ def run_interaction_smoke_test(page, path, label):
         check(f"{label}: close button actually closes the panel", not page.is_visible(panel_selector), "panel still visible after closing")
     else:
         check(f"{label}: close button actually closes the panel", False, "skipped — panel never opened")
+
+    if path == "/":
+        # Re-collapsing has to remove the children again, and must not leave a pinned
+        # panel behind for a node that is no longer on screen.
+        real_click(page, "#n-pgol")
+        page.wait_for_timeout(200)
+        real_click(page, "#n-entertainment")
+        page.wait_for_timeout(300)
+        check(
+            f"{label}: collapsing the group hides its projects again",
+            page.query_selector("#n-poke") is None and page.query_selector("#n-pgol") is None,
+            "grouped nodes still rendered after collapsing",
+        )
+        check(
+            f"{label}: collapsing closes a panel pinned to a hidden node",
+            not page.is_visible(".summary"),
+            "summary panel outlived the node that opened it",
+        )
+        # Laying out twice must land in exactly the same place; measuring node boxes
+        # through #dagScale's transform used to make the graph drift on every toggle.
+        first = page.eval_on_selector("#dagScale", "el => el.style.width")
+        real_click(page, "#n-entertainment")
+        page.wait_for_timeout(250)
+        real_click(page, "#n-entertainment")
+        page.wait_for_timeout(250)
+        check(
+            f"{label}: re-layout is idempotent",
+            page.eval_on_selector("#dagScale", "el => el.style.width") == first,
+            f"graph width drifted from {first}",
+        )
 
 
 def run_interaction_checks(base):
